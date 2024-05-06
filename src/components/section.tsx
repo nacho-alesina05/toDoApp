@@ -1,12 +1,13 @@
 import React from 'react';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import {Colors} from '../styles/colors';
+import { Colors } from '../styles/colors';
 
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 interface Element {
   title: string;
   description: string;
+  checked: boolean;
 }
 
 interface SectionProps {
@@ -26,9 +27,9 @@ export default function Section({
       </View>
       <View>
         <BouncyCheckbox
-          style={{flex: 1}}
+          style={{ flex: 1 }}
           fillColor={Colors.rosado}
-          onPress={(isChecked: boolean) => selectCallback(isChecked)}
+          onPress={(isChecked: boolean) => selectCallback(isChecked, elem)}
         />
       </View>
     </View>
