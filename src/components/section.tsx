@@ -27,6 +27,7 @@ export default function Section({
       </View>
       <View>
         <BouncyCheckbox
+          isChecked={elem.checked}
           style={{ flex: 1 }}
           fillColor={Colors.rosado}
           onPress={(isChecked: boolean) => selectCallback(isChecked, elem)}

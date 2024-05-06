@@ -62,7 +62,7 @@ function App(): React.JSX.Element {
     flex: 1,
     backgroundColor: Colors.backGround,
   };
-  console.log(todoS);
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <Hea title="Todo"></Hea>
