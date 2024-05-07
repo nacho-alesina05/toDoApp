@@ -1,7 +1,7 @@
 import React from 'react';
-import {Colors} from '../styles/colors';
+import { Colors } from '../styles/colors';
 
-import {View, Text, StyleSheet, StatusBar} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 interface HeaderProps {
   title: string;
@@ -22,20 +22,18 @@ export default function Header({
   );
 }
 
-const white: string = '#ffffff';
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between', // Distribuye los elementos a lo largo del eje principal (horizontalmente)
     alignItems: 'center', // Alinea los elementos verticalmente
-    backgroundColor: Colors.azul,
+    backgroundColor: Colors.primary,
     color: 'white',
     padding: 15,
   },
   text: {
-    color: white,
-    fontWeight: 'bold', // Establece la negrita
+    color: Colors.white,
+    fontWeight: 'bold',
     fontSize: 20,
   },
   title: {

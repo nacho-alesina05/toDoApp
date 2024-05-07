@@ -23,10 +23,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   text: {
-    color: Colors.rosado,
+    color: Colors.secondary,
     fontWeight: 'bold',
   },
   button: {
     padding: 10,
   },
+
 });

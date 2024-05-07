@@ -1,5 +1,8 @@
 export const Colors = {
-  rosado: '#FF197B',
+  primary: '#1F86FF',
+  secondary: '#FF197B',
   backGround: '#F0F0F0',
-  azul: '#1F86FF',
+  white: '#FFFFFF',
+  fontTitle: '#000',
+  fontDescription: '#8A8A8F'
 };

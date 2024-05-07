@@ -9,38 +9,32 @@ import React from 'react';
 import { useState } from 'react';
 import { Colors } from './src/styles/colors';
 import {
-  Alert,
   SafeAreaView,
   ScrollView,
   StatusBar,
-  StyleSheet,
-  Text,
   useColorScheme,
-  View,
 } from 'react-native';
 
 
 
-import Hea from './src/components/header';
-import Clear from './src/components/clear';
-import Section from './src/components/section';
+import Header from './src/components/Header';
+import Clear from './src/components/Clear';
+import Section from './src/components/Section';
 
-
+interface Element {
+  title: string;
+  description: string;
+  checked: boolean;
+}
 
 function App(): React.JSX.Element {
 
-  interface Element {
-    title: string;
-    description: string;
-    checked: boolean;
-  }
-
-  function selectCallback(isChecked: boolean, elem: Element) {
-    const actualizedTodo = todoS.map(e => {
+  function onSelect(isChecked: boolean, elem: Element) {
+    const updatedTodo = todoS.map(e => {
       if (e == elem) { e.checked = isChecked; }
       return e;
     })
-    setTodos(actualizedTodo);
+    setTodos(updatedTodo);
   }
 
   function clearAllDone() {
@@ -65,7 +59,7 @@ function App(): React.JSX.Element {
 
   return (
     <SafeAreaView style={backgroundStyle}>
-      <Hea title="Todo"></Hea>
+      <Header title="Todo"></Header>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
       />
@@ -73,7 +67,7 @@ function App(): React.JSX.Element {
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
         {todoS.map((todo, index) => (
-          <Section key={index} elem={todo} selectCallback={selectCallback} />
+          <Section key={index} elem={todo} selectCallback={onSelect} />
         ))}
         <Clear text="clear all done" callback={clearAllDone}></Clear>
       </ScrollView>

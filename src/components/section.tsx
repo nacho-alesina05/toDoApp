@@ -23,13 +23,13 @@ export default function Section({
     <View style={styles.container}>
       <View style={styles.sectionContainer}>
         <Text style={styles.sectionTitle}>{elem.title}</Text>
-        <Text style={[styles.sectionDescription]}>{elem.description}</Text>
+        <Text style={styles.sectionDescription}>{elem.description}</Text>
       </View>
       <View>
         <BouncyCheckbox
           isChecked={elem.checked}
-          style={{ flex: 1 }}
-          fillColor={Colors.rosado}
+          style={styles.bouncyCheckboxStyle}
+          fillColor={Colors.secondary}
           onPress={(isChecked: boolean) => selectCallback(isChecked, elem)}
         />
       </View>
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     marginLeft: 2,
     marginRight: 2,
     marginBottom: 2,
@@ -55,24 +55,27 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontFamily: 'SourceSansPro-Regular',
     fontSize: 16,
-    color: 'black',
-    textAlign: 'left', // Este valor se puede ajustar según sea necesario
-    width: 343, // Esto establece el ancho del texto
-    height: 24, // Esto establece la altura del texto
-    lineHeight: 24, // Esto establece el espaciado entre líneas (altura de línea)
+    color: Colors.fontTitle,
+    textAlign: 'left',
+    width: 343,
+    height: 24,
+    lineHeight: 24,
     textAlignVertical: 'center',
   },
   sectionDescription: {
     fontFamily: 'SourceSansPro-Regular',
     fontSize: 14,
-    color: '#8A8A8F', // Este valor puede ser ajustado según el color que necesites
-    textAlign: 'left', // Este valor se puede ajustar según sea necesario
-    width: 343, // Esto establece el ancho del texto
-    height: 20, // Esto establece la altura del texto
-    lineHeight: 20, // Esto establece el espaciado entre líneas (altura de línea)
+    color: Colors.fontDescription,
+    textAlign: 'left',
+    width: 343,
+    height: 20,
+    lineHeight: 20,
     textAlignVertical: 'center',
   },
   highlight: {
     fontWeight: '700',
   },
+  bouncyCheckboxStyle: {
+    flex: 1
+  }
 });
