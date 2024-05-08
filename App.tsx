@@ -25,16 +25,19 @@ function App() {
           name="HomeScreen"
           component={HomeScreen}
           options={({ navigation }) => ({
+            title: 'Todo',
             headerRight: () =>
               <Button
                 title='+'
                 color={Colors.white}
-
                 onPress={() => navigation.navigate('NewTodo')} />
           })} />
         <Stack.Screen
           name="NewTodo"
-          component={NewTodo} />
+          component={NewTodo}
+          options={({ navigation }) => ({
+            title: 'New Task'
+          })} />
       </Stack.Navigator>
     </NavigationContainer>
 

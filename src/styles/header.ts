@@ -11,5 +11,4 @@ export const headerStyle: NativeStackNavigationOptions = {
         fontWeight: 'bold',
         fontSize: 20,
     },
-    headerTitle: 'Todo'
 }
