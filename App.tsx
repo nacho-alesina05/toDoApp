@@ -6,113 +6,73 @@
  */
 
 import React from 'react';
-import type {PropsWithChildren} from 'react';
+import { useState } from 'react';
+import { Colors } from './src/styles/colors';
 import {
   SafeAreaView,
   ScrollView,
   StatusBar,
-  StyleSheet,
-  Text,
   useColorScheme,
-  View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
 
-type SectionProps = PropsWithChildren<{
+
+import Header from './src/components/Header';
+import Clear from './src/components/Clear';
+import Section from './src/components/Section';
+
+interface Element {
   title: string;
-}>;
-
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
+  description: string;
+  checked: boolean;
 }
 
 function App(): React.JSX.Element {
+
+  function onSelect(isChecked: boolean, elem: Element) {
+    const updatedTodo = todoS.map(e => {
+      if (e == elem) { e.checked = isChecked; }
+      return e;
+    })
+    setTodos(updatedTodo);
+  }
+
+  function clearAllDone() {
+    const clearTodos = todoS.filter(obj => {
+      return obj.checked === false;
+    });
+    if (clearTodos.length !== todoS.length) {
+      setTodos(clearTodos);
+    }
+  }
+
   const isDarkMode = useColorScheme() === 'dark';
+  const [todoS, setTodos] = useState([
+    { title: 'prueba', description: 'hasdf', checked: false },
+    { title: 'prueba2', description: 'hasdf', checked: false },
+  ]);
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    flex: 1,
+    backgroundColor: Colors.backGround,
   };
 
   return (
     <SafeAreaView style={backgroundStyle}>
+      <Header title="Todo"></Header>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
       />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
+        {todoS.map((todo, index) => (
+          <Section key={index} elem={todo} selectCallback={onSelect} />
+        ))}
+        <Clear text="clear all done" callback={clearAllDone}></Clear>
       </ScrollView>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
