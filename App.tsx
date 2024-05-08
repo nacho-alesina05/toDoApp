@@ -5,74 +5,42 @@
  * @format
  */
 
-import React from 'react';
-import { useState } from 'react';
-import { Colors } from './src/styles/colors';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  useColorScheme,
-} from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import HomeScreen from './src/screens/Home';
+import { headerStyle } from "./src/styles/header";
+import { Button } from "react-native";
+import { Colors } from "./src/styles/colors";
+import NewTodo from "./src/screens/NewTodo";
 
+const Stack = createNativeStackNavigator();
 
-
-import Header from './src/components/Header';
-import Clear from './src/components/Clear';
-import Section from './src/components/Section';
-
-interface Element {
-  title: string;
-  description: string;
-  checked: boolean;
-}
-
-function App(): React.JSX.Element {
-
-  function onSelect(isChecked: boolean, elem: Element) {
-    const updatedTodo = todoS.map(e => {
-      if (e == elem) { e.checked = isChecked; }
-      return e;
-    })
-    setTodos(updatedTodo);
-  }
-
-  function clearAllDone() {
-    const clearTodos = todoS.filter(obj => {
-      return obj.checked === false;
-    });
-    if (clearTodos.length !== todoS.length) {
-      setTodos(clearTodos);
-    }
-  }
-
-  const isDarkMode = useColorScheme() === 'dark';
-  const [todoS, setTodos] = useState([
-    { title: 'prueba', description: 'hasdf', checked: false },
-    { title: 'prueba2', description: 'hasdf', checked: false },
-  ]);
-
-  const backgroundStyle = {
-    flex: 1,
-    backgroundColor: Colors.backGround,
-  };
-
+function App() {
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <Header title="Todo"></Header>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        {todoS.map((todo, index) => (
-          <Section key={index} elem={todo} selectCallback={onSelect} />
-        ))}
-        <Clear text="clear all done" callback={clearAllDone}></Clear>
-      </ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={headerStyle}
+      >
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={({ navigation }) => ({
+            headerRight: () =>
+              <Button
+                title='+'
+                color={Colors.white}
+
+                onPress={() => navigation.navigate('NewTodo')} />
+          })} />
+        <Stack.Screen
+          name="NewTodo"
+          component={NewTodo} />
+      </Stack.Navigator>
+    </NavigationContainer>
+
   );
 }
+
+
 
 export default App;
