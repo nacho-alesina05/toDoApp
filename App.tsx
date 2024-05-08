@@ -25,7 +25,7 @@ function App() {
           name="HomeScreen"
           component={HomeScreen}
           options={({ navigation }) => ({
-            title: 'Todo',
+            headerTitle: 'Todo',
             headerRight: () =>
               <Button
                 title='+'
@@ -36,7 +36,15 @@ function App() {
           name="NewTodo"
           component={NewTodo}
           options={({ navigation }) => ({
-            title: 'New Task'
+            headerTitle: 'New Task',
+            headerRight: () => <Button
+              title="Save"
+              color={Colors.white}
+              onPress={() => navigation.navigate('HomeScreen')} />,
+            headerLeft: () => <Button
+              title="Cancel"
+              color={Colors.white}
+              onPress={() => navigation.navigate('HomeScreen')} />,
           })} />
       </Stack.Navigator>
     </NavigationContainer>
