@@ -4,5 +4,5 @@ export const Colors = {
   backGround: '#F0F0F0',
   white: '#FFFFFF',
   fontTitle: '#000',
-  fontDescription: '#8A8A8F'
-};
+  fontDescription: '#8A8A8F',
+}

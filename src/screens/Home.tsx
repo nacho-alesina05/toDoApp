@@ -1,71 +1,64 @@
-import React from 'react';
-import { useState } from 'react';
-import { Colors } from '../styles/colors';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useState } from 'react'
 import {
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
-    useColorScheme,
-} from 'react-native';
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  useColorScheme,
+} from 'react-native'
 
+import { ClearButton } from '../components/ClearButton'
+import Section from '../components/Section'
+import { Colors } from '../styles/colors'
 
-
-import Header from '../components/Header';
-import Clear from '../components/Clear';
-import Section from '../components/Section';
-
-interface Element {
-    title: string;
-    description: string;
-    checked: boolean;
+export interface mockedType {
+  id: number
+  title: string
+  description: string
+  checked: boolean
 }
-const Stack = createNativeStackNavigator();
+
+const mockedTodo: mockedType[] = [
+  { checked: false, description: 'hasdf', id: 1, title: 'prueba' },
+  { checked: false, description: 'hasdf', id: 2, title: 'prueba2' },
+]
 
 export default function HomeScreen(): React.JSX.Element {
+  function onSelect(isChecked: boolean, id: number) {
+    const updatedTodo = todoS.map(todo => {
+      if (todo.id === id) todo.checked = isChecked
+      return todo
+    })
+    setTodos(updatedTodo)
+  }
 
-    function onSelect(isChecked: boolean, elem: Element) {
-        const updatedTodo = todoS.map(e => {
-            if (e == elem) { e.checked = isChecked; }
-            return e;
-        })
-        setTodos(updatedTodo);
+  function clearAllDone() {
+    const clearTodos = todoS.filter(obj => {
+      return obj.checked === false
+    })
+    if (clearTodos.length !== todoS.length) {
+      setTodos(clearTodos)
     }
+  }
 
-    function clearAllDone() {
-        const clearTodos = todoS.filter(obj => {
-            return obj.checked === false;
-        });
-        if (clearTodos.length !== todoS.length) {
-            setTodos(clearTodos);
-        }
-    }
+  const isDarkMode = useColorScheme() === 'dark'
+  const [todoS, setTodos] = useState(mockedTodo)
 
-    const isDarkMode = useColorScheme() === 'dark';
-    const [todoS, setTodos] = useState([
-        { title: 'prueba', description: 'hasdf', checked: false },
-        { title: 'prueba2', description: 'hasdf', checked: false },
-    ]);
+  const backgroundStyle = {
+    backgroundColor: Colors.backGround,
+    flex: 1,
+  }
 
-    const backgroundStyle = {
-        flex: 1,
-        backgroundColor: Colors.backGround,
-    };
-
-    return (
-        <SafeAreaView style={backgroundStyle}>
-            <StatusBar
-                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-            />
-            <ScrollView
-                contentInsetAdjustmentBehavior="automatic"
-                style={backgroundStyle}>
-                {todoS.map((todo, index) => (
-                    <Section key={index} elem={todo} selectCallback={onSelect} />
-                ))}
-                <Clear text="clear all done" callback={clearAllDone}></Clear>
-            </ScrollView>
-        </SafeAreaView>
-    )
+  return (
+    <SafeAreaView style={backgroundStyle}>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={backgroundStyle}>
+        {todoS.map(todo => (
+          <Section key={todo.id} elem={todo} selectCallback={onSelect} />
+        ))}
+        <ClearButton text="clear all done" onPress={clearAllDone} />
+      </ScrollView>
+    </SafeAreaView>
+  )
 }
