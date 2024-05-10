@@ -11,7 +11,6 @@ import HomeScreen from '../screens/Home'
 import NewTodo from '../screens/NewTodo'
 import { headerStyle } from '../styles/header'
 import { bulidHeaderRightButton } from './buildHeaderButtons'
-import { bulidHeaderButtonNewTodo } from './buildHeaderButtons'
 const Stack = createNativeStackNavigator()
 
 export const AppContainer = () => {
@@ -28,11 +27,10 @@ export const AppContainer = () => {
       <Stack.Screen
         name="NewTodo"
         component={NewTodo}
-        options={({ navigation }) => ({
-          headerLeft: bulidHeaderButtonNewTodo(navigation, 'Cancel'),
-          headerRight: bulidHeaderButtonNewTodo(navigation, 'Save'),
+        options={() => ({
           headerTitle: 'New Task',
         })}
+        //le podria pasar aca de una las funciones q hice como useEffect para q se calculen una sola vez?
       />
     </Stack.Navigator>
   )

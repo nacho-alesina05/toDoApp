@@ -14,5 +14,11 @@ export type HomeNavProps = NativeStackScreenProps<
   RootStackParamList,
   'HomeScreen'
 >
-export type NewTodo = NativeStackScreenProps<RootStackParamList, 'NewTodo'>
-export type InfoTodo = NativeStackScreenProps<RootStackParamList, 'InfoTodo'>
+export type NewTodoNavProps = NativeStackScreenProps<
+  RootStackParamList,
+  'NewTodo'
+>
+export type InfoTodoNavProps = NativeStackScreenProps<
+  RootStackParamList,
+  'InfoTodo'
+>

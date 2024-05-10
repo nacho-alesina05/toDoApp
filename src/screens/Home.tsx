@@ -19,14 +19,11 @@ export interface mockedType {
 }
 
 const mockedTodo: mockedType[] = [
-  { checked: false, description: 'hasdf', id: 1, title: 'prueba' },
-  { checked: false, description: 'hasdf', id: 2, title: 'prueba2' },
+  { checked: false, description: 'hasdf', id: 0, title: 'prueba' },
+  { checked: false, description: 'hasdf', id: 1, title: 'prueba2' },
 ]
 
-export default function HomeScreen({
-  navigation,
-  route,
-}: HomeNavProps): React.JSX.Element {
+export default function HomeScreen({ route }: HomeNavProps): React.JSX.Element {
   function onSelect(isChecked: boolean, id: number) {
     const updatedTodo = todoS.map(todo => {
       if (todo.id === id) todo.checked = isChecked
@@ -45,7 +42,7 @@ export default function HomeScreen({
   }
 
   const isDarkMode = useColorScheme() === 'dark'
-  const [todoS, setTodos] = useState(mockedTodo)
+  const [todoS, setTodos] = useState<mockedType[]>(mockedTodo)
 
   const backgroundStyle = {
     backgroundColor: Colors.backGround,
@@ -55,15 +52,16 @@ export default function HomeScreen({
   useEffect(() => {
     if (route.params?.newTodo) {
       const { title, description } = route.params.newTodo
+      const idNewTodo = todoS.length ? todoS[todoS.length - 1].id + 1 : 0
       const newTodo: mockedType = {
         checked: false,
         description: description,
-        id: todoS.length,
+        id: idNewTodo,
         title: title,
       }
       setTodos(prevTodos => [...prevTodos, newTodo])
     }
-  }, [route.params?.newTodo]) //me recomienda incluir todos.length como dependencia pero no me parece apropiado porque esta solo cambia cuando llega un nuevo NewTodo y haria que el useeffect se ejecute dos veces cuanod no es necesario.
+  }, [route.params?.newTodo]) //me recomienda incluir todos como dependencia pero no me parece apropiado porque esta solo cambia cuando llega un nuevo NewTodo y haria que el useeffect se ejecute dos veces cuanod no es necesario.
 
   return (
     <SafeAreaView style={backgroundStyle}>
