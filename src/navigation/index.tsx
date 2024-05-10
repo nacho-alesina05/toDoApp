@@ -6,14 +6,12 @@
  */
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Button } from 'react-native'
 
 import HomeScreen from '../screens/Home'
 import NewTodo from '../screens/NewTodo'
-import { Colors } from '../styles/colors'
 import { headerStyle } from '../styles/header'
 import { bulidHeaderRightButton } from './buildHeaderButtons'
-
+import { bulidHeaderButtonNewTodo } from './buildHeaderButtons'
 const Stack = createNativeStackNavigator()
 
 export const AppContainer = () => {
@@ -31,20 +29,8 @@ export const AppContainer = () => {
         name="NewTodo"
         component={NewTodo}
         options={({ navigation }) => ({
-          headerLeft: () => (
-            <Button
-              title="Cancel"
-              color={Colors.white}
-              onPress={() => navigation.navigate('HomeScreen')}
-            />
-          ),
-          headerRight: () => (
-            <Button
-              title="Save"
-              color={Colors.white}
-              onPress={() => navigation.navigate('HomeScreen')}
-            />
-          ),
+          headerLeft: bulidHeaderButtonNewTodo(navigation, 'Cancel'),
+          headerRight: bulidHeaderButtonNewTodo(navigation, 'Save'),
           headerTitle: 'New Task',
         })}
       />

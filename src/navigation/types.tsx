@@ -1,12 +1,18 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { mockedType } from '../screens/Home'
+export interface NewItem {
+  title: string
+  description: string
+}
 type RootStackParamList = {
-  Home: { updatedTodos?: mockedType[] } | undefined
+  HomeScreen: { newTodo?: NewItem } | undefined
   NewTodo: undefined
   InfoTodo: { id: string }
 }
 
-export type HomeNavProps = NativeStackScreenProps<RootStackParamList, 'Home'>
+export type HomeNavProps = NativeStackScreenProps<
+  RootStackParamList,
+  'HomeScreen'
+>
 export type NewTodo = NativeStackScreenProps<RootStackParamList, 'NewTodo'>
 export type InfoTodo = NativeStackScreenProps<RootStackParamList, 'InfoTodo'>

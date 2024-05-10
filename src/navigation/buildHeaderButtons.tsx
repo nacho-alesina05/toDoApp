@@ -21,3 +21,16 @@ export function bulidHeaderRightButton(
     />
   )
 }
+
+export function bulidHeaderButtonNewTodo(
+  navigation: headerRBProps['navigation'],
+  text: string,
+) {
+  return () => (
+    <Button
+      title={text}
+      color={Colors.white}
+      onPress={navigateTo(navigation, 'Home')}
+    />
+  )
+}

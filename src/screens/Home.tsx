@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useEffect } from 'react'
 import {
   SafeAreaView,
   ScrollView,
@@ -8,8 +9,8 @@ import {
 
 import { ClearButton } from '../components/ClearButton'
 import Section from '../components/Section'
+import { HomeNavProps } from '../navigation/types'
 import { Colors } from '../styles/colors'
-
 export interface mockedType {
   id: number
   title: string
@@ -22,7 +23,10 @@ const mockedTodo: mockedType[] = [
   { checked: false, description: 'hasdf', id: 2, title: 'prueba2' },
 ]
 
-export default function HomeScreen(): React.JSX.Element {
+export default function HomeScreen({
+  navigation,
+  route,
+}: HomeNavProps): React.JSX.Element {
   function onSelect(isChecked: boolean, id: number) {
     const updatedTodo = todoS.map(todo => {
       if (todo.id === id) todo.checked = isChecked
@@ -47,6 +51,19 @@ export default function HomeScreen(): React.JSX.Element {
     backgroundColor: Colors.backGround,
     flex: 1,
   }
+
+  useEffect(() => {
+    if (route.params?.newTodo) {
+      const { title, description } = route.params.newTodo
+      const newTodo: mockedType = {
+        checked: false,
+        description: description,
+        id: todoS.length,
+        title: title,
+      }
+      setTodos(prevTodos => [...prevTodos, newTodo])
+    }
+  }, [route.params?.newTodo]) //me recomienda incluir todos.length como dependencia pero no me parece apropiado porque esta solo cambia cuando llega un nuevo NewTodo y haria que el useeffect se ejecute dos veces cuanod no es necesario.
 
   return (
     <SafeAreaView style={backgroundStyle}>
