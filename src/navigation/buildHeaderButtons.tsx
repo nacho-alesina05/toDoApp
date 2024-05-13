@@ -1,5 +1,5 @@
 import { NavigationProp } from '@react-navigation/native' // Importa el tipo Navigation
-import { Button } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 import { Colors } from '../styles/colors'
 interface headerRBProps {
@@ -14,11 +14,11 @@ export function bulidHeaderRightButton(
   navigation: headerRBProps['navigation'],
 ) {
   return () => (
-    <Button
-      title="+"
-      color={Colors.white}
-      onPress={navigateTo(navigation, 'NewTodo')}
-    />
+    <TouchableOpacity
+      style={styles.button}
+      onPress={navigateTo(navigation, 'NewTodo')}>
+      <Text style={styles.text}>+</Text>
+    </TouchableOpacity>
   )
 }
 
@@ -28,6 +28,28 @@ export function bulidHeaderButtonNewTodo(
   onPressFunction = navigateTo(navigation, 'HomeScreen'),
 ) {
   return () => (
-    <Button title={text} color={Colors.white} onPress={onPressFunction} />
+    <View>
+      <TouchableOpacity style={styles.button} onPress={onPressFunction}>
+        <View style={styles.vista}>
+          <Text style={styles.text}>{text}</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    backgroundColor: Colors.primary,
+    height: 25,
+    width: 50,
+  },
+  text: {
+    color: Colors.white,
+    height: 25,
+  },
+  vista: {
+    padding: 2,
+  },
+})

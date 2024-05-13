@@ -19,7 +19,6 @@ export default function NewTodo({ navigation }: NewTodoNavProps) {
       title: textTitle,
     }
     navigation.setOptions({
-      headerLeft: bulidHeaderButtonNewTodo(navigation, 'Cancel'), //no tendria porque ponerlo aca, sino en la creacion de la screen
       headerRight: bulidHeaderButtonNewTodo(navigation, 'Save', () =>
         navigation.navigate('HomeScreen', { newTodo: newTodoItem }),
       ),

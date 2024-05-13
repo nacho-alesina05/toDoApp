@@ -7,6 +7,7 @@ export const headerStyle: NativeStackNavigationOptions = {
     backgroundColor: Colors.primary,
   },
   headerTintColor: Colors.white,
+  headerTitleAlign: 'center',
   headerTitleStyle: {
     color: Colors.white,
     fontSize: 20,
