@@ -21,10 +21,20 @@ export default function Section({
       style={styles.container}
       onPress={() => todoSelectedCallback(elem)}>
       <View style={styles.sectionContainer}>
-        <Text style={styles.sectionTitle}>{elem.title}</Text>
-        <Text style={styles.sectionDescription}>{elem.description}</Text>
+        <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          style={styles.sectionTitle}>
+          {elem.title}
+        </Text>
+        <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          style={styles.sectionDescription}>
+          {elem.description}
+        </Text>
       </View>
-      <View>
+      <View style={styles.checkboxContainer}>
         <BouncyCheckbox
           isChecked={elem.checked}
           style={styles.bouncyCheckboxStyle}
@@ -40,6 +50,9 @@ const styles = StyleSheet.create({
   bouncyCheckboxStyle: {
     flex: 1,
   },
+  checkboxContainer: {
+    width: '10%',
+  },
   container: {
     backgroundColor: Colors.white,
     flexDirection: 'row',
@@ -52,10 +65,10 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   sectionContainer: {
-    flex: 1,
     justifyContent: 'center',
-    padding: 20,
-    paddingHorizontal: 24,
+    margin: 20,
+    marginLeft: 24,
+    width: '80%',
   },
   sectionDescription: {
     color: Colors.fontDescription,
@@ -65,7 +78,7 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     textAlign: 'left',
     textAlignVertical: 'center',
-    width: 343,
+    width: 'auto',
   },
   sectionTitle: {
     color: Colors.fontTitle,
@@ -75,6 +88,6 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     textAlign: 'left',
     textAlignVertical: 'center',
-    width: 343,
+    width: 'auto',
   },
 })

@@ -6,7 +6,6 @@ export interface NewItem {
 }
 
 interface IsDoneItem {
-  hasChange: boolean
   id: number
 }
 

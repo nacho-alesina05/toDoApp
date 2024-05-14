@@ -10,7 +10,6 @@ export default function InfoTodo({ navigation, route }: InfoTodoNavProps) {
   function returnHomeScreen() {
     navigation.navigate('HomeScreen', {
       doneItem: {
-        hasChange: true,
         id: id,
       },
     })

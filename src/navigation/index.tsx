@@ -30,7 +30,13 @@ export const AppContainer = () => {
           headerTitle: 'New Task',
         })}
       />
-      <Stack.Screen name="InfoTodo" component={InfoTodo} />
+      <Stack.Screen
+        name="InfoTodo"
+        component={InfoTodo}
+        options={() => ({
+          headerTitle: 'Details',
+        })}
+      />
     </Stack.Navigator>
   )
 }

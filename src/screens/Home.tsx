@@ -77,14 +77,12 @@ export default function HomeScreen({
 
   useEffect(() => {
     if (route.params?.doneItem) {
-      const { hasChange, id } = route.params.doneItem
-      if (hasChange) {
-        const modifiedTodo = todoS.map(todo => {
-          if (todo.id === id) todo.checked = !todo.checked
-          return todo
-        })
-        setTodos(modifiedTodo)
-      }
+      const { id } = route.params.doneItem
+      const modifiedTodo = todoS.map(todo => {
+        if (todo.id === id) todo.checked = !todo.checked
+        return todo
+      })
+      setTodos(modifiedTodo)
     }
   }, [route.params?.doneItem]) //eslint-disable-line
 
