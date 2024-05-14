@@ -1,17 +1,10 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import HomeScreen from '../screens/Home'
 import NewTodo from '../screens/NewTodo'
 import { headerStyle } from '../styles/header'
 import { bulidHeaderRightButton } from './buildHeaderButtons'
-import { bulidHeaderButtonNewTodo } from './buildHeaderButtons'
+import { bulidHeadersButtonsNewTodo } from './buildHeaderButtons'
 const Stack = createNativeStackNavigator()
 
 export const AppContainer = () => {
@@ -29,7 +22,7 @@ export const AppContainer = () => {
         name="NewTodo"
         component={NewTodo}
         options={({ navigation }) => ({
-          headerLeft: bulidHeaderButtonNewTodo(navigation, 'Cancel'),
+          headerLeft: bulidHeadersButtonsNewTodo(navigation, 'Cancel'),
           headerTitle: 'New Task',
         })}
       />

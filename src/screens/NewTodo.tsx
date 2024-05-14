@@ -3,7 +3,7 @@ import { TextInput } from 'react-native'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { bulidHeaderButtonNewTodo } from '../navigation/buildHeaderButtons'
+import { bulidHeadersButtonsNewTodo } from '../navigation/buildHeaderButtons'
 import { NewItem } from '../navigation/types'
 import { NewTodoNavProps } from '../navigation/types'
 import { Colors } from '../styles/colors'
@@ -19,11 +19,11 @@ export default function NewTodo({ navigation }: NewTodoNavProps) {
       title: textTitle,
     }
     navigation.setOptions({
-      headerRight: bulidHeaderButtonNewTodo(navigation, 'Save', () =>
+      headerRight: bulidHeadersButtonsNewTodo(navigation, 'Save', () =>
         navigation.navigate('HomeScreen', { newTodo: newTodoItem }),
       ),
     })
-  }, [textTitle, textDescription]) //me gustaria que se ejecute solo despues de que se toque el boton save.
+  }, [textTitle, textDescription]) //eslint-disable-line
   return (
     <SafeAreaView style={styles.background}>
       <TextInput

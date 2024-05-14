@@ -1,4 +1,4 @@
-import { NativeStackNavigationOptions } from '@react-navigation/native-stack' // Asegúrate de importar el tipo NativeStackNavigationOptions
+import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 
 import { Colors } from './colors'
 

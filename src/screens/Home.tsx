@@ -61,7 +61,7 @@ export default function HomeScreen({ route }: HomeNavProps): React.JSX.Element {
       }
       setTodos(prevTodos => [...prevTodos, newTodo])
     }
-  }, [route.params?.newTodo]) //me recomienda incluir todos como dependencia pero no me parece apropiado porque esta solo cambia cuando llega un nuevo NewTodo y haria que el useeffect se ejecute dos veces cuanod no es necesario.
+  }, [route.params?.newTodo]) //eslint-disable-line
 
   return (
     <SafeAreaView style={backgroundStyle}>

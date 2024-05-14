@@ -22,7 +22,7 @@ export function bulidHeaderRightButton(
   )
 }
 
-export function bulidHeaderButtonNewTodo(
+export function bulidHeadersButtonsNewTodo(
   navigation: headerRBProps['navigation'],
   text: string,
   onPressFunction = navigateTo(navigation, 'HomeScreen'),
@@ -30,7 +30,7 @@ export function bulidHeaderButtonNewTodo(
   return () => (
     <View>
       <TouchableOpacity style={styles.button} onPress={onPressFunction}>
-        <View style={styles.vista}>
+        <View style={styles.view}>
           <Text style={styles.text}>{text}</Text>
         </View>
       </TouchableOpacity>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     color: Colors.white,
     height: 25,
   },
-  vista: {
+  view: {
     padding: 2,
   },
 })
