@@ -4,10 +4,16 @@ export interface NewItem {
   title: string
   description: string
 }
+
+interface IsDoneItem {
+  hasChange: boolean
+  id: number
+}
+
 type RootStackParamList = {
-  HomeScreen: { newTodo?: NewItem } | undefined
+  HomeScreen: { doneItem?: IsDoneItem } | { newTodo?: NewItem } | undefined
   NewTodo: undefined
-  InfoTodo: { id: string }
+  InfoTodo: { id: number; title: string; description: string; checked: boolean }
 }
 
 export type HomeNavProps = NativeStackScreenProps<

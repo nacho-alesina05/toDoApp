@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
 import { mockedType } from '../screens/Home'
@@ -8,14 +8,18 @@ import { Colors } from '../styles/colors'
 interface SectionProps {
   elem: mockedType
   selectCallback: Function
+  todoSelectedCallback: (elem: mockedType) => void
 }
 
 export default function Section({
   elem,
   selectCallback,
+  todoSelectedCallback,
 }: SectionProps): React.JSX.Element {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => todoSelectedCallback(elem)}>
       <View style={styles.sectionContainer}>
         <Text style={styles.sectionTitle}>{elem.title}</Text>
         <Text style={styles.sectionDescription}>{elem.description}</Text>
@@ -28,7 +32,7 @@ export default function Section({
           onPress={(isChecked: boolean) => selectCallback(isChecked, elem.id)}
         />
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
