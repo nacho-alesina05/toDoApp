@@ -1,18 +1,13 @@
-import React from 'react';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import { Colors } from '../styles/colors';
+import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
-import { View, Text, StyleSheet } from 'react-native';
-
-interface Element {
-  title: string;
-  description: string;
-  checked: boolean;
-}
+import { mockedType } from '../screens/Home'
+import { Colors } from '../styles/colors'
 
 interface SectionProps {
-  elem: Element;
-  selectCallback: Function;
+  elem: mockedType
+  selectCallback: Function
 }
 
 export default function Section({
@@ -30,52 +25,52 @@ export default function Section({
           isChecked={elem.checked}
           style={styles.bouncyCheckboxStyle}
           fillColor={Colors.secondary}
-          onPress={(isChecked: boolean) => selectCallback(isChecked, elem)}
+          onPress={(isChecked: boolean) => selectCallback(isChecked, elem.id)}
         />
       </View>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
+  bouncyCheckboxStyle: {
+    flex: 1,
+  },
   container: {
+    backgroundColor: Colors.white,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: Colors.white,
+    marginBottom: 2,
     marginLeft: 2,
     marginRight: 2,
-    marginBottom: 2,
-  },
-  sectionContainer: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontFamily: 'SourceSansPro-Regular',
-    fontSize: 16,
-    color: Colors.fontTitle,
-    textAlign: 'left',
-    width: 343,
-    height: 24,
-    lineHeight: 24,
-    textAlignVertical: 'center',
-  },
-  sectionDescription: {
-    fontFamily: 'SourceSansPro-Regular',
-    fontSize: 14,
-    color: Colors.fontDescription,
-    textAlign: 'left',
-    width: 343,
-    height: 20,
-    lineHeight: 20,
-    textAlignVertical: 'center',
   },
   highlight: {
     fontWeight: '700',
   },
-  bouncyCheckboxStyle: {
-    flex: 1
-  }
-});
+  sectionContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+    paddingHorizontal: 24,
+  },
+  sectionDescription: {
+    color: Colors.fontDescription,
+    fontFamily: 'SourceSansPro-Regular',
+    fontSize: 14,
+    height: 20,
+    lineHeight: 20,
+    textAlign: 'left',
+    textAlignVertical: 'center',
+    width: 343,
+  },
+  sectionTitle: {
+    color: Colors.fontTitle,
+    fontFamily: 'SourceSansPro-Regular',
+    fontSize: 16,
+    height: 24,
+    lineHeight: 24,
+    textAlign: 'left',
+    textAlignVertical: 'center',
+    width: 343,
+  },
+})
