@@ -3,10 +3,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import HomeScreen from '../screens/Home'
 import NewTodo from '../screens/NewTodo'
 import { headerStyle } from '../styles/header'
-import { bulidHeaderRightButton } from './buildHeaderButtons'
-import { bulidHeadersButtonsNewTodo } from './buildHeaderButtons'
+import { bulidHeaderButton } from './buildHeaderButtons'
 const Stack = createNativeStackNavigator()
-
+import { navigateTo } from './buildHeaderButtons'
 export const AppContainer = () => {
   return (
     <Stack.Navigator screenOptions={headerStyle} initialRouteName="HomeScreen">
@@ -14,7 +13,11 @@ export const AppContainer = () => {
         name="HomeScreen"
         component={HomeScreen}
         options={({ navigation }) => ({
-          headerRight: bulidHeaderRightButton(navigation),
+          headerRight: bulidHeaderButton(
+            navigation,
+            '+',
+            navigateTo(navigation, 'NewTodo'),
+          ),
           headerTitle: 'Todo',
         })}
       />
@@ -22,7 +25,7 @@ export const AppContainer = () => {
         name="NewTodo"
         component={NewTodo}
         options={({ navigation }) => ({
-          headerLeft: bulidHeadersButtonsNewTodo(navigation, 'Cancel'),
+          headerLeft: bulidHeaderButton(navigation, 'Cancel'),
           headerTitle: 'New Task',
         })}
       />

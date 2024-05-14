@@ -3,7 +3,7 @@ import { TextInput } from 'react-native'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-import { bulidHeadersButtonsNewTodo } from '../navigation/buildHeaderButtons'
+import { bulidHeaderButton } from '../navigation/buildHeaderButtons'
 import { NewItem } from '../navigation/types'
 import { NewTodoNavProps } from '../navigation/types'
 import { Colors } from '../styles/colors'
@@ -19,7 +19,7 @@ export default function NewTodo({ navigation }: NewTodoNavProps) {
       title: textTitle,
     }
     navigation.setOptions({
-      headerRight: bulidHeadersButtonsNewTodo(navigation, 'Save', () =>
+      headerRight: bulidHeaderButton(navigation, 'Save', () =>
         navigation.navigate('HomeScreen', { newTodo: newTodoItem }),
       ),
     })
