@@ -16,6 +16,9 @@ export const todosSlice = createSlice({
   initialState,
   name: 'todos',
   reducers: {
+    addNewTodo: (state, action) => {
+      state.todos.push(action.payload)
+    },
     check: (state, action) => {
       state.todos[action.payload].checked = true
     },
@@ -32,4 +35,4 @@ export const todosSlice = createSlice({
 
 export default todosSlice.reducer
 
-export const { check, unchecked, clearAllDone } = todosSlice.actions
+export const { addNewTodo, check, unchecked, clearAllDone } = todosSlice.actions

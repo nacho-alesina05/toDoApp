@@ -1,5 +1,3 @@
-import { useState } from 'react'
-import { useEffect } from 'react'
 import {
   SafeAreaView,
   ScrollView,
@@ -21,14 +19,8 @@ export interface mockedType {
   checked: boolean
 }
 
-const mockedTodo: mockedType[] = [
-  { checked: false, description: 'hasdf', id: 0, title: 'prueba' },
-  { checked: false, description: 'hasdf', id: 1, title: 'prueba2' },
-]
-
 export default function HomeScreen({
   navigation,
-  route,
 }: HomeNavProps): React.JSX.Element {
   const todos = useAppSelector(state => state.todos)
   const dispatch = useAppDispatch()
@@ -37,47 +29,18 @@ export default function HomeScreen({
     dispatch(clearAllDone())
   }
 
-  function showTodoInfo(elem: mockedType) {
+  function showTodoInfo(id: number) {
     navigation.navigate('InfoTodo', {
-      checked: elem.checked,
-      description: elem.description,
-      id: elem.id,
-      title: elem.title,
+      id: id,
     })
   }
 
   const isDarkMode = useColorScheme() === 'dark'
-  const [todoS, setTodos] = useState<mockedType[]>(mockedTodo)
 
   const backgroundStyle = {
     backgroundColor: Colors.backGround,
     flex: 1,
   }
-
-  useEffect(() => {
-    if (route.params?.newTodo) {
-      const { title, description } = route.params.newTodo
-      const idNewTodo = todoS.length ? todoS[todoS.length - 1].id + 1 : 0
-      const newTodo: mockedType = {
-        checked: false,
-        description: description,
-        id: idNewTodo,
-        title: title,
-      }
-      setTodos(prevTodos => [...prevTodos, newTodo])
-    }
-  }, [route.params?.newTodo]) //eslint-disable-line
-
-  useEffect(() => {
-    if (route.params?.doneItem) {
-      const { id } = route.params.doneItem
-      const modifiedTodo = todoS.map(todo => {
-        if (todo.id === id) todo.checked = !todo.checked
-        return todo
-      })
-      setTodos(modifiedTodo)
-    }
-  }, [route.params?.doneItem]) //eslint-disable-line
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -88,7 +51,7 @@ export default function HomeScreen({
         {todos.todos.map(todo => (
           <Section
             key={todo.id}
-            elem={todo}
+            id={todo.id}
             todoSelectedCallback={showTodoInfo}
           />
         ))}

@@ -2,51 +2,50 @@ import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
-import { useAppDispatch } from '../app/hooks'
-import { check, unchecked } from '../features/todosState'
+import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { check, TodosState, unchecked } from '../features/todosState'
 import { mockedType } from '../screens/Home'
 import { Colors } from '../styles/colors'
 
 interface SectionProps {
-  elem: mockedType
-  todoSelectedCallback: (elem: mockedType) => void
+  id: number
+  todoSelectedCallback: (id: number) => void
 }
 
 export default function Section({
-  elem,
+  id,
   todoSelectedCallback,
 }: SectionProps): React.JSX.Element {
   const dispatch = useAppDispatch()
-  function handleCheckboxPressed(isChecked: boolean, id: number) {
-    isChecked ? dispatch(check(id)) : dispatch(unchecked(elem.id))
+  function handleCheckboxPressed(isChecked: boolean) {
+    isChecked ? dispatch(check(id)) : dispatch(unchecked(id))
   }
-
+  const todos: TodosState = useAppSelector(state => state.todos)
+  const elem: mockedType | undefined = todos.todos.find(todo => todo.id === id)
   return (
     <TouchableOpacity
       style={styles.container}
-      onPress={() => todoSelectedCallback(elem)}>
+      onPress={() => todoSelectedCallback(id)}>
       <View style={styles.sectionContainer}>
         <Text
           numberOfLines={1}
           ellipsizeMode="tail"
           style={styles.sectionTitle}>
-          {elem.title}
+          {elem?.title}
         </Text>
         <Text
           numberOfLines={1}
           ellipsizeMode="tail"
           style={styles.sectionDescription}>
-          {elem.description}
+          {elem?.description}
         </Text>
       </View>
       <View style={styles.checkboxContainer}>
         <BouncyCheckbox
-          isChecked={elem.checked}
+          isChecked={elem?.checked}
           style={styles.bouncyCheckboxStyle}
           fillColor={Colors.secondary}
-          onPress={(isChecked: boolean) =>
-            handleCheckboxPressed(isChecked, elem.id)
-          }
+          onPress={(isChecked: boolean) => handleCheckboxPressed(isChecked)}
         />
       </View>
     </TouchableOpacity>
