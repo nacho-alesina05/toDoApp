@@ -2,20 +2,25 @@ import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
+import { useAppDispatch } from '../app/hooks'
+import { check, unchecked } from '../features/todosState'
 import { mockedType } from '../screens/Home'
 import { Colors } from '../styles/colors'
 
 interface SectionProps {
   elem: mockedType
-  selectCallback: Function
   todoSelectedCallback: (elem: mockedType) => void
 }
 
 export default function Section({
   elem,
-  selectCallback,
   todoSelectedCallback,
 }: SectionProps): React.JSX.Element {
+  const dispatch = useAppDispatch()
+  function handleCheckboxPressed(isChecked: boolean, id: number) {
+    isChecked ? dispatch(check(id)) : dispatch(unchecked(elem.id))
+  }
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -39,7 +44,9 @@ export default function Section({
           isChecked={elem.checked}
           style={styles.bouncyCheckboxStyle}
           fillColor={Colors.secondary}
-          onPress={(isChecked: boolean) => selectCallback(isChecked, elem.id)}
+          onPress={(isChecked: boolean) =>
+            handleCheckboxPressed(isChecked, elem.id)
+          }
         />
       </View>
     </TouchableOpacity>

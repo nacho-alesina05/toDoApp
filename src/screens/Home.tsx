@@ -7,10 +7,13 @@ import {
   useColorScheme,
 } from 'react-native'
 
+import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { ClearButton } from '../components/ClearButton'
 import Section from '../components/Section'
+import { clearAllDone } from '../features/todosState'
 import { HomeNavProps } from '../navigation/types'
 import { Colors } from '../styles/colors'
+
 export interface mockedType {
   id: number
   title: string
@@ -27,12 +30,11 @@ export default function HomeScreen({
   navigation,
   route,
 }: HomeNavProps): React.JSX.Element {
-  function onSelect(isChecked: boolean, id: number) {
-    const updatedTodo = todoS.map(todo => {
-      if (todo.id === id) todo.checked = isChecked
-      return todo
-    })
-    setTodos(updatedTodo)
+  const todos = useAppSelector(state => state.todos)
+  const dispatch = useAppDispatch()
+
+  function handleclearAllDone() {
+    dispatch(clearAllDone())
   }
 
   function showTodoInfo(elem: mockedType) {
@@ -42,15 +44,6 @@ export default function HomeScreen({
       id: elem.id,
       title: elem.title,
     })
-  }
-
-  function clearAllDone() {
-    const clearTodos = todoS.filter(obj => {
-      return obj.checked === false
-    })
-    if (clearTodos.length !== todoS.length) {
-      setTodos(clearTodos)
-    }
   }
 
   const isDarkMode = useColorScheme() === 'dark'
@@ -92,15 +85,14 @@ export default function HomeScreen({
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        {todoS.map(todo => (
+        {todos.todos.map(todo => (
           <Section
             key={todo.id}
             elem={todo}
-            selectCallback={onSelect}
             todoSelectedCallback={showTodoInfo}
           />
         ))}
-        <ClearButton text="clear all done" onPress={clearAllDone} />
+        <ClearButton text="clear all done" onPress={handleclearAllDone} />
       </ScrollView>
     </SafeAreaView>
   )
