@@ -31,7 +31,10 @@ export const todosSlice = createSlice({
       state.todos.push(newTodo)
     },
     check: (state, action) => {
-      state.todos[action.payload].checked = true
+      const todoToCheck = state.todos.find(todo => todo.id === action.payload)
+      if (todoToCheck) {
+        todoToCheck.checked = true
+      }
     },
     clearAllDone: state => {
       state.todos = state.todos.filter(obj => {
@@ -39,7 +42,10 @@ export const todosSlice = createSlice({
       })
     },
     unchecked: (state, action) => {
-      state.todos[action.payload].checked = false
+      const todoToCheck = state.todos.find(todo => todo.id === action.payload)
+      if (todoToCheck) {
+        todoToCheck.checked = false
+      }
     },
   },
 })
