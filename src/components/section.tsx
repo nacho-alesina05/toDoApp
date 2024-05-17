@@ -17,6 +17,7 @@ export default function Section({
   todoSelectedCallback,
 }: SectionProps): React.JSX.Element {
   const dispatch = useAppDispatch()
+
   function handleCheckboxPressed(isChecked: boolean) {
     isChecked ? dispatch(check(id)) : dispatch(unchecked(id))
   }

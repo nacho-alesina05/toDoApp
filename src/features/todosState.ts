@@ -17,7 +17,18 @@ export const todosSlice = createSlice({
   name: 'todos',
   reducers: {
     addNewTodo: (state, action) => {
-      state.todos.push(action.payload)
+      const { title, description } = action.payload
+      const idNewTodo = state.todos.length
+        ? state.todos[state.todos.length - 1].id + 1
+        : 0
+
+      const newTodo: mockedType = {
+        checked: false,
+        description,
+        id: idNewTodo,
+        title,
+      }
+      state.todos.push(newTodo)
     },
     check: (state, action) => {
       state.todos[action.payload].checked = true
