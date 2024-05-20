@@ -6,7 +6,7 @@ export interface NewItem {
 }
 
 type RootStackParamList = {
-  HomeScreen: { newTodo?: NewItem } | undefined
+  HomeScreen: undefined
   NewTodo: undefined
   InfoTodo: { id: number }
 }
