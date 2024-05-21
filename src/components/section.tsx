@@ -4,7 +4,7 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { check, TodosState, unchecked } from '../features/todosState'
-import { mockedType } from '../screens/Home'
+import { Todo } from '../screens/Home'
 import { Colors } from '../styles/colors'
 
 interface SectionProps {
@@ -22,22 +22,16 @@ export default function Section({
     isChecked ? dispatch(check(id)) : dispatch(unchecked(id))
   }
   const todos: TodosState = useAppSelector(state => state.todos)
-  const elem: mockedType | undefined = todos.todos.find(todo => todo.id === id)
+  const elem: Todo | undefined = todos.todos.find(todo => todo.id === id)
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => todoSelectedCallback(id)}>
       <View style={styles.sectionContainer}>
-        <Text
-          numberOfLines={1}
-          ellipsizeMode="tail"
-          style={styles.sectionTitle}>
+        <Text numberOfLines={1} style={styles.sectionTitle}>
           {elem?.title}
         </Text>
-        <Text
-          numberOfLines={1}
-          ellipsizeMode="tail"
-          style={styles.sectionDescription}>
+        <Text numberOfLines={1} style={styles.sectionDescription}>
           {elem?.description}
         </Text>
       </View>

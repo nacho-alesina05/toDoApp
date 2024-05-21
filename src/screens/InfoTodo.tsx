@@ -21,7 +21,7 @@ export default function InfoTodo({ navigation, route }: InfoTodoNavProps) {
     <>
       <View style={styles.view}>
         <Text style={[styles.done, styles.text]}>
-          {elem?.checked ? 'isDone' : 'NotDone'}
+          {elem?.checked ? 'Done' : 'Not done'}
         </Text>
         <Text style={[styles.title, styles.text]}>{elem?.title}</Text>
         <Text style={[styles.description, styles.text]}>
