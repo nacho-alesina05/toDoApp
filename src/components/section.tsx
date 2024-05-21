@@ -3,8 +3,9 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { check, TodosState, unchecked } from '../features/todosState'
-import { Todo } from '../screens/Home'
+import { check, unchecked } from '../features/todosState'
+import { TodosState } from '../navigation/types'
+import { Todo } from '../navigation/types'
 import { Colors } from '../styles/colors'
 
 interface SectionProps {
@@ -48,11 +49,11 @@ export default function Section({
 }
 
 const styles = StyleSheet.create({
-  bouncyCheckboxStyle: {
-    flex: 1,
-  },
+  bouncyCheckboxStyle: {},
   checkboxContainer: {
-    width: '10%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '15%',
   },
   container: {
     backgroundColor: Colors.white,
@@ -66,10 +67,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   sectionContainer: {
+    flex: 1,
     justifyContent: 'center',
     margin: 20,
     marginLeft: 24,
-    width: '80%',
+    width: '85%',
   },
   sectionDescription: {
     color: Colors.fontDescription,

@@ -1,9 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
+import { TodosState } from '../navigation/types'
+import { Todo } from '../navigation/types'
 import { todosController } from '../networking/controllers/todos'
-import { Todo } from '../screens/Home'
-
-//create thunk
 export const getAllTodos = createAsyncThunk<
   Todo[],
   void,
@@ -24,11 +23,6 @@ export const getAllTodos = createAsyncThunk<
     }
   }
 })
-export interface TodosState {
-  todos: Todo[]
-  loading: boolean
-  error: string | undefined
-}
 
 const initialState: TodosState = {
   error: undefined,
@@ -51,7 +45,6 @@ export const todosSlice = createSlice({
       .addCase(getAllTodos.rejected, (state, action) => {
         state.error = action.payload
         state.loading = false
-        console.log('action', action)
       })
   },
   initialState,

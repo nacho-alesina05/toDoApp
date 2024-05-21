@@ -1,27 +1,18 @@
 import { useEffect } from 'react'
 import {
-  ActivityIndicator,
   SafeAreaView,
   ScrollView,
   StatusBar,
-  StyleSheet,
   useColorScheme,
-  View,
 } from 'react-native'
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { ClearButton } from '../components/ClearButton'
+import { LoadingActivityIndicator } from '../components/Loading'
 import Section from '../components/Section'
 import { clearAllDone, getAllTodos } from '../features/todosState'
 import { HomeNavProps } from '../navigation/types'
 import { Colors } from '../styles/colors'
-
-export interface Todo {
-  id: number
-  title: string
-  description: string
-  checked: boolean
-}
 
 export default function HomeScreen({
   navigation,
@@ -49,11 +40,7 @@ export default function HomeScreen({
     flex: 1,
   }
   if (loading) {
-    return (
-      <View>
-        <ActivityIndicator size={'large'} color={Colors.secondary} />
-      </View>
-    )
+    return <LoadingActivityIndicator />
   }
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -73,7 +60,3 @@ export default function HomeScreen({
     </SafeAreaView>
   )
 }
-
-const styles = StyleSheet.create({
-  loading: {},
-})

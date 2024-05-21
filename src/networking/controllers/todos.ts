@@ -1,4 +1,4 @@
-import { Todo } from '../../screens/Home'
+import { Todo } from '../../navigation/types'
 import { httpService } from '../httpService'
 interface TodoResponse {
   userId: number
