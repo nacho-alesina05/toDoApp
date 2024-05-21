@@ -5,6 +5,7 @@ import NewTodo from '../screens/NewTodo'
 import { headerStyle } from '../styles/header'
 import { bulidHeaderButton } from './buildHeaderButtons'
 const Stack = createNativeStackNavigator()
+import InfoTodo from '../screens/InfoTodo'
 import { navigateTo } from './buildHeaderButtons'
 export const AppContainer = () => {
   return (
@@ -27,6 +28,13 @@ export const AppContainer = () => {
         options={({ navigation }) => ({
           headerLeft: bulidHeaderButton(navigation, 'Cancel'),
           headerTitle: 'New Task',
+        })}
+      />
+      <Stack.Screen
+        name="InfoTodo"
+        component={InfoTodo}
+        options={() => ({
+          headerTitle: 'Details',
         })}
       />
     </Stack.Navigator>
