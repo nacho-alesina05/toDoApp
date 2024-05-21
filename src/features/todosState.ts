@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
-import { TodosState } from '../navigation/types'
-import { Todo } from '../navigation/types'
+import { TodosState } from '../entities/globalTypes'
+import { Todo } from '../entities/globalTypes'
 import { todosController } from '../networking/controllers/todos'
 export const getAllTodos = createAsyncThunk<
   Todo[],

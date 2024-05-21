@@ -1,6 +1,7 @@
 import { NavigationProp } from '@react-navigation/native' // Importa el tipo Navigation
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 
+import { Routes } from '../entities/constants'
 import { Colors } from '../styles/colors'
 interface headerRBProps {
   navigation: NavigationProp<any>
@@ -13,7 +14,7 @@ export const navigateTo =
 export function bulidHeaderButton(
   navigation: headerRBProps['navigation'],
   text: string,
-  onPressFunction = navigateTo(navigation, 'HomeScreen'),
+  onPressFunction = navigateTo(navigation, Routes.HomeScreen),
 ) {
   return () => (
     <TouchableOpacity style={styles.button} onPress={onPressFunction}>

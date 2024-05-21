@@ -10,10 +10,11 @@ import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { ClearButton } from '../components/ClearButton'
 import { LoadingActivityIndicator } from '../components/Loading'
 import Section from '../components/Section'
+import { todosFunctionForTodosSelector } from '../entities/constants'
+import { Routes } from '../entities/constants'
 import { clearAllDone, getAllTodos } from '../features/todosState'
 import { HomeNavProps } from '../navigation/types'
 import { Colors } from '../styles/colors'
-
 export default function HomeScreen({
   navigation,
 }: HomeNavProps): React.JSX.Element {
@@ -21,14 +22,14 @@ export default function HomeScreen({
   useEffect(() => {
     dispatch(getAllTodos())
   }, [])
-  const todos = useAppSelector(state => state.todos)
+  const todos = useAppSelector(todosFunctionForTodosSelector)
   const loading = todos.loading
   function handleclearAllDone() {
     dispatch(clearAllDone())
   }
 
   function showTodoInfo(id: number) {
-    navigation.navigate('InfoTodo', {
+    navigation.navigate(Routes.Details, {
       id: id,
     })
   }

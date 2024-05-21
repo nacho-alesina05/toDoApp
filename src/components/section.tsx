@@ -3,11 +3,11 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
+import { todosFunctionForTodosSelector } from '../entities/constants'
+import { TodosState } from '../entities/globalTypes'
+import { Todo } from '../entities/globalTypes'
 import { check, unchecked } from '../features/todosState'
-import { TodosState } from '../navigation/types'
-import { Todo } from '../navigation/types'
 import { Colors } from '../styles/colors'
-
 interface SectionProps {
   id: number
   todoSelectedCallback: (id: number) => void
@@ -22,7 +22,7 @@ export default function Section({
   function handleCheckboxPressed(isChecked: boolean) {
     isChecked ? dispatch(check(id)) : dispatch(unchecked(id))
   }
-  const todos: TodosState = useAppSelector(state => state.todos)
+  const todos: TodosState = useAppSelector(todosFunctionForTodosSelector)
   const elem: Todo | undefined = todos.todos.find(todo => todo.id === id)
   return (
     <TouchableOpacity

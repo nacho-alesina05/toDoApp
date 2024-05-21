@@ -4,9 +4,10 @@ import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { useAppDispatch } from '../app/hooks'
+import { Routes } from '../entities/constants'
+import { NewItem } from '../entities/globalTypes'
 import { addNewTodo } from '../features/todosState'
 import { bulidHeaderButton } from '../navigation/buildHeaderButtons'
-import { NewItem } from '../navigation/types'
 import { NewTodoNavProps } from '../navigation/types'
 import { Colors } from '../styles/colors'
 
@@ -17,7 +18,7 @@ export default function NewTodo({ navigation }: NewTodoNavProps) {
   const dispatch = useAppDispatch()
   function saveButtonSetOptions(item: NewItem) {
     dispatch(addNewTodo(item))
-    navigation.navigate('HomeScreen')
+    navigation.navigate(Routes.HomeScreen)
   }
   useEffect(() => {
     const newTodoItem: NewItem = {

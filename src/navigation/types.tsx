@@ -1,21 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-export interface Todo {
-  id: number
-  title: string
-  description: string
-  checked: boolean
-}
-
-export interface TodosState {
-  todos: Todo[]
-  loading: boolean
-  error: string | undefined
-}
-export interface NewItem {
-  title: string
-  description: string
-}
+import { Routes } from '../entities/constants'
 
 type RootStackParamList = {
   HomeScreen: undefined
@@ -25,13 +10,13 @@ type RootStackParamList = {
 
 export type HomeNavProps = NativeStackScreenProps<
   RootStackParamList,
-  'HomeScreen'
+  Routes.HomeScreen
 >
 export type NewTodoNavProps = NativeStackScreenProps<
   RootStackParamList,
-  'NewTodo'
+  Routes.NewTodo
 >
 export type InfoTodoNavProps = NativeStackScreenProps<
   RootStackParamList,
-  'InfoTodo'
+  Routes.Details
 >
