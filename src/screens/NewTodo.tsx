@@ -3,6 +3,8 @@ import { TextInput } from 'react-native'
 import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
+import { useAppDispatch } from '../app/hooks'
+import { addNewTodo } from '../features/todosState'
 import { bulidHeaderButton } from '../navigation/buildHeaderButtons'
 import { NewItem } from '../navigation/types'
 import { NewTodoNavProps } from '../navigation/types'
@@ -12,7 +14,11 @@ export default function NewTodo({ navigation }: NewTodoNavProps) {
   const [isFocused, setFocused] = useState(false)
   const [textTitle, setTextTitle] = useState('')
   const [textDescription, setTextDescription] = useState('')
-
+  const dispatch = useAppDispatch()
+  function saveButtonSetOptions(item: NewItem) {
+    dispatch(addNewTodo(item))
+    navigation.navigate('HomeScreen')
+  }
   useEffect(() => {
     const newTodoItem: NewItem = {
       description: textDescription,
@@ -20,7 +26,7 @@ export default function NewTodo({ navigation }: NewTodoNavProps) {
     }
     navigation.setOptions({
       headerRight: bulidHeaderButton(navigation, 'Save', () =>
-        navigation.navigate('HomeScreen', { newTodo: newTodoItem }),
+        saveButtonSetOptions(newTodoItem),
       ),
     })
   }, [textTitle, textDescription]) //eslint-disable-line

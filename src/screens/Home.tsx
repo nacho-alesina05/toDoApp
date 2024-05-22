@@ -1,5 +1,3 @@
-import { useState } from 'react'
-import { useEffect } from 'react'
 import {
   SafeAreaView,
   ScrollView,
@@ -7,10 +5,13 @@ import {
   useColorScheme,
 } from 'react-native'
 
+import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { ClearButton } from '../components/ClearButton'
 import Section from '../components/Section'
+import { clearAllDone } from '../features/todosState'
 import { HomeNavProps } from '../navigation/types'
 import { Colors } from '../styles/colors'
+
 export interface mockedType {
   id: number
   title: string
@@ -18,73 +19,28 @@ export interface mockedType {
   checked: boolean
 }
 
-const mockedTodo: mockedType[] = [
-  { checked: false, description: 'hasdf', id: 0, title: 'prueba' },
-  { checked: false, description: 'hasdf', id: 1, title: 'prueba2' },
-]
-
 export default function HomeScreen({
   navigation,
-  route,
 }: HomeNavProps): React.JSX.Element {
-  function onSelect(isChecked: boolean, id: number) {
-    const updatedTodo = todoS.map(todo => {
-      if (todo.id === id) todo.checked = isChecked
-      return todo
-    })
-    setTodos(updatedTodo)
+  const todos = useAppSelector(state => state.todos)
+  const dispatch = useAppDispatch()
+
+  function handleclearAllDone() {
+    dispatch(clearAllDone())
   }
 
-  function showTodoInfo(elem: mockedType) {
+  function showTodoInfo(id: number) {
     navigation.navigate('InfoTodo', {
-      checked: elem.checked,
-      description: elem.description,
-      id: elem.id,
-      title: elem.title,
+      id: id,
     })
-  }
-
-  function clearAllDone() {
-    const clearTodos = todoS.filter(obj => {
-      return obj.checked === false
-    })
-    if (clearTodos.length !== todoS.length) {
-      setTodos(clearTodos)
-    }
   }
 
   const isDarkMode = useColorScheme() === 'dark'
-  const [todoS, setTodos] = useState<mockedType[]>(mockedTodo)
 
   const backgroundStyle = {
     backgroundColor: Colors.backGround,
     flex: 1,
   }
-
-  useEffect(() => {
-    if (route.params?.newTodo) {
-      const { title, description } = route.params.newTodo
-      const idNewTodo = todoS.length ? todoS[todoS.length - 1].id + 1 : 0
-      const newTodo: mockedType = {
-        checked: false,
-        description: description,
-        id: idNewTodo,
-        title: title,
-      }
-      setTodos(prevTodos => [...prevTodos, newTodo])
-    }
-  }, [route.params?.newTodo]) //eslint-disable-line
-
-  useEffect(() => {
-    if (route.params?.doneItem) {
-      const { id } = route.params.doneItem
-      const modifiedTodo = todoS.map(todo => {
-        if (todo.id === id) todo.checked = !todo.checked
-        return todo
-      })
-      setTodos(modifiedTodo)
-    }
-  }, [route.params?.doneItem]) //eslint-disable-line
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -92,15 +48,14 @@ export default function HomeScreen({
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        {todoS.map(todo => (
+        {todos.todos.map(todo => (
           <Section
             key={todo.id}
-            elem={todo}
-            selectCallback={onSelect}
+            id={todo.id}
             todoSelectedCallback={showTodoInfo}
           />
         ))}
-        <ClearButton text="clear all done" onPress={clearAllDone} />
+        <ClearButton text="clear all done" onPress={handleclearAllDone} />
       </ScrollView>
     </SafeAreaView>
   )

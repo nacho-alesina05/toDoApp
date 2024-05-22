@@ -1,31 +1,35 @@
 import { StyleSheet, Text, View } from 'react-native'
 
+import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { ClearButton } from '../components/ClearButton'
+import { check, unchecked } from '../features/todosState'
 import { InfoTodoNavProps } from '../navigation/types'
 import { Colors } from '../styles/colors'
 
 export default function InfoTodo({ navigation, route }: InfoTodoNavProps) {
-  const { id, title, description, checked } = route.params
+  const { id } = route.params
+  const todos = useAppSelector(state => state.todos)
+  const dispatch = useAppDispatch()
+  const elem = todos.todos.find(todo => todo.id === id)
 
   function returnHomeScreen() {
-    navigation.navigate('HomeScreen', {
-      doneItem: {
-        id: id,
-      },
-    })
+    !elem?.checked ? dispatch(check(id)) : dispatch(unchecked(id))
+    navigation.navigate('HomeScreen')
   }
 
   return (
     <>
       <View style={styles.view}>
         <Text style={[styles.done, styles.text]}>
-          {checked ? 'isDone' : 'NotDone'}
+          {elem?.checked ? 'isDone' : 'NotDone'}
         </Text>
-        <Text style={[styles.title, styles.text]}>{title}</Text>
-        <Text style={[styles.description, styles.text]}>{description} </Text>
+        <Text style={[styles.title, styles.text]}>{elem?.title}</Text>
+        <Text style={[styles.description, styles.text]}>
+          {elem?.description}{' '}
+        </Text>
       </View>
       <ClearButton
-        text={`Mark as ${checked ? 'not ' : ''}done`}
+        text={`Mark as ${elem?.checked ? 'not ' : ''}done`}
         onPress={returnHomeScreen}
       />
     </>
