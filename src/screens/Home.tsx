@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { ClearButton } from '../components/ClearButton'
 import { LoadingActivityIndicator } from '../components/Loading'
 import Section from '../components/Section'
-import { todosFunctionForTodosSelector } from '../entities/constants'
+import { todosFunctionForStateSelector } from '../entities/constants'
 import { Routes } from '../entities/constants'
 import { clearAllDone, getAllTodos } from '../features/todosState'
 import { HomeNavProps } from '../navigation/types'
@@ -22,7 +22,7 @@ export default function HomeScreen({
   useEffect(() => {
     dispatch(getAllTodos())
   }, [])
-  const todos = useAppSelector(todosFunctionForTodosSelector)
+  const todos = useAppSelector(todosFunctionForStateSelector)
   const loading = todos.loading
   function handleclearAllDone() {
     dispatch(clearAllDone())
@@ -30,7 +30,7 @@ export default function HomeScreen({
 
   function showTodoInfo(id: number) {
     navigation.navigate(Routes.Details, {
-      id: id,
+      id,
     })
   }
 

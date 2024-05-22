@@ -12,7 +12,7 @@ export default function InfoTodo({ navigation, route }: InfoTodoNavProps) {
   const { id } = route.params
   const todos = useAppSelector(todosFunctionForTodosSelector)
   const dispatch = useAppDispatch()
-  const elem = todos.todos.find(todo => todo.id === id)
+  const elem = todos.find(todo => todo.id === id)
 
   function returnHomeScreen() {
     !elem?.checked ? dispatch(check(id)) : dispatch(unchecked(id))

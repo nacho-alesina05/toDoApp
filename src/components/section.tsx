@@ -4,7 +4,6 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { todosFunctionForTodosSelector } from '../entities/constants'
-import { TodosState } from '../entities/globalTypes'
 import { Todo } from '../entities/globalTypes'
 import { check, unchecked } from '../features/todosState'
 import { Colors } from '../styles/colors'
@@ -22,8 +21,8 @@ export default function Section({
   function handleCheckboxPressed(isChecked: boolean) {
     isChecked ? dispatch(check(id)) : dispatch(unchecked(id))
   }
-  const todos: TodosState = useAppSelector(todosFunctionForTodosSelector)
-  const elem: Todo | undefined = todos.todos.find(todo => todo.id === id)
+  const todos: Todo[] = useAppSelector(todosFunctionForTodosSelector)
+  const elem: Todo | undefined = todos.find(todo => todo.id === id)
   return (
     <TouchableOpacity
       style={styles.container}
@@ -41,7 +40,7 @@ export default function Section({
           isChecked={elem?.checked}
           style={styles.bouncyCheckboxStyle}
           fillColor={Colors.secondary}
-          onPress={(isChecked: boolean) => handleCheckboxPressed(isChecked)}
+          onPress={handleCheckboxPressed}
         />
       </View>
     </TouchableOpacity>
