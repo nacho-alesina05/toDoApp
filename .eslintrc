@@ -14,11 +14,13 @@
     "semi": ["off"],
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
-    "no-console": ["error", {"allow": ["warn"]}],
+    "no-console": ["error", { "allow": ["warn"] }],
     "sort-keys": "error",
     "sort-imports": "off",
     "import/order": "off",
     "no-shadow": "off",
-    "@typescript-eslint/no-shadow": "error"
-  }
+    "@typescript-eslint/no-shadow": "error",
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off"
+  },
 }
