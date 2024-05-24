@@ -3,10 +3,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
-import { check, TodosState, unchecked } from '../features/todosState'
-import { mockedType } from '../screens/Home'
+import { todosSelector } from '../features/todosState'
+import { check, unchecked } from '../features/todosState'
 import { Colors } from '../styles/colors'
-
+import { Todo } from '../types/globalTypes'
 interface SectionProps {
   id: number
   todoSelectedCallback: (id: number) => void
@@ -21,23 +21,17 @@ export default function Section({
   function handleCheckboxPressed(isChecked: boolean) {
     isChecked ? dispatch(check(id)) : dispatch(unchecked(id))
   }
-  const todos: TodosState = useAppSelector(state => state.todos)
-  const elem: mockedType | undefined = todos.todos.find(todo => todo.id === id)
+  const todos: Todo[] = useAppSelector(todosSelector)
+  const elem: Todo | undefined = todos.find(todo => todo.id === id)
   return (
     <TouchableOpacity
       style={styles.container}
       onPress={() => todoSelectedCallback(id)}>
       <View style={styles.sectionContainer}>
-        <Text
-          numberOfLines={1}
-          ellipsizeMode="tail"
-          style={styles.sectionTitle}>
+        <Text numberOfLines={1} style={styles.sectionTitle}>
           {elem?.title}
         </Text>
-        <Text
-          numberOfLines={1}
-          ellipsizeMode="tail"
-          style={styles.sectionDescription}>
+        <Text numberOfLines={1} style={styles.sectionDescription}>
           {elem?.description}
         </Text>
       </View>
@@ -46,7 +40,7 @@ export default function Section({
           isChecked={elem?.checked}
           style={styles.bouncyCheckboxStyle}
           fillColor={Colors.secondary}
-          onPress={(isChecked: boolean) => handleCheckboxPressed(isChecked)}
+          onPress={handleCheckboxPressed}
         />
       </View>
     </TouchableOpacity>
@@ -54,11 +48,11 @@ export default function Section({
 }
 
 const styles = StyleSheet.create({
-  bouncyCheckboxStyle: {
-    flex: 1,
-  },
+  bouncyCheckboxStyle: {},
   checkboxContainer: {
-    width: '10%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '15%',
   },
   container: {
     backgroundColor: Colors.white,
@@ -72,10 +66,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   sectionContainer: {
+    flex: 1,
     justifyContent: 'center',
     margin: 20,
     marginLeft: 24,
-    width: '80%',
+    width: '85%',
   },
   sectionDescription: {
     color: Colors.fontDescription,

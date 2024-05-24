@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import {
   SafeAreaView,
   ScrollView,
@@ -7,31 +8,30 @@ import {
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { ClearButton } from '../components/ClearButton'
+import { LoadingActivityIndicator } from '../components/Loading'
 import Section from '../components/Section'
-import { clearAllDone } from '../features/todosState'
+import { clearAllDone, getAllTodos } from '../features/todosState'
+import { stateSelector } from '../features/todosState'
 import { HomeNavProps } from '../navigation/types'
+import { Routes } from '../navigation/types'
 import { Colors } from '../styles/colors'
-
-export interface mockedType {
-  id: number
-  title: string
-  description: string
-  checked: boolean
-}
 
 export default function HomeScreen({
   navigation,
 }: HomeNavProps): React.JSX.Element {
-  const todos = useAppSelector(state => state.todos)
   const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(getAllTodos())
+  }, [])
 
+  const { todos, loading } = useAppSelector(stateSelector)
   function handleclearAllDone() {
     dispatch(clearAllDone())
   }
 
   function showTodoInfo(id: number) {
-    navigation.navigate('InfoTodo', {
-      id: id,
+    navigation.navigate(Routes.Details, {
+      id,
     })
   }
 
@@ -41,6 +41,9 @@ export default function HomeScreen({
     backgroundColor: Colors.backGround,
     flex: 1,
   }
+  if (loading) {
+    return <LoadingActivityIndicator />
+  }
 
   return (
     <SafeAreaView style={backgroundStyle}>
@@ -48,7 +51,7 @@ export default function HomeScreen({
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        {todos.todos.map(todo => (
+        {todos.map(todo => (
           <Section
             key={todo.id}
             id={todo.id}
