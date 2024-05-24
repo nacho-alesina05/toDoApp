@@ -10,11 +10,12 @@ import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { ClearButton } from '../components/ClearButton'
 import { LoadingActivityIndicator } from '../components/Loading'
 import Section from '../components/Section'
-import { todosFunctionForStateSelector } from '../entities/constants'
-import { Routes } from '../entities/constants'
 import { clearAllDone, getAllTodos } from '../features/todosState'
+import { stateSelector } from '../features/todosState'
 import { HomeNavProps } from '../navigation/types'
+import { Routes } from '../navigation/types'
 import { Colors } from '../styles/colors'
+
 export default function HomeScreen({
   navigation,
 }: HomeNavProps): React.JSX.Element {
@@ -22,8 +23,8 @@ export default function HomeScreen({
   useEffect(() => {
     dispatch(getAllTodos())
   }, [])
-  const todos = useAppSelector(todosFunctionForStateSelector)
-  const loading = todos.loading
+
+  const { todos, loading } = useAppSelector(stateSelector)
   function handleclearAllDone() {
     dispatch(clearAllDone())
   }
@@ -43,13 +44,14 @@ export default function HomeScreen({
   if (loading) {
     return <LoadingActivityIndicator />
   }
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
-        {todos.todos.map(todo => (
+        {todos.map(todo => (
           <Section
             key={todo.id}
             id={todo.id}

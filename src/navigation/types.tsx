@@ -1,7 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { Routes } from '../entities/constants'
-
 type RootStackParamList = {
   HomeScreen: undefined
   NewTodo: undefined
@@ -20,3 +18,9 @@ export type InfoTodoNavProps = NativeStackScreenProps<
   RootStackParamList,
   Routes.Details
 >
+
+export enum Routes {
+  HomeScreen = 'HomeScreen',
+  NewTodo = 'NewTodo',
+  Details = 'InfoTodo',
+}

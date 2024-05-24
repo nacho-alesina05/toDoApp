@@ -5,11 +5,6 @@ export interface Todo {
   checked: boolean
 }
 
-export interface TodosState {
-  todos: Todo[]
-  loading: boolean
-  error: string | undefined
-}
 export interface NewItem {
   title: string
   description: string

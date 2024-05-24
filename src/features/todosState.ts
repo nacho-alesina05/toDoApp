@@ -1,8 +1,15 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
 
-import { TodosState } from '../entities/globalTypes'
-import { Todo } from '../entities/globalTypes'
+import type { RootState } from '../app/store'
 import { todosController } from '../networking/controllers/todos'
+import { Todo } from '../types/globalTypes'
+
+export interface TodosState {
+  todos: Todo[]
+  loading: boolean
+  error: string | undefined
+}
+
 export const getAllTodos = createAsyncThunk<
   Todo[],
   void,
@@ -83,6 +90,31 @@ export const todosSlice = createSlice({
     },
   },
 })
+
+export const stateSelector = (state: RootState): TodosState => state.todos
+
+export const todosSelector = (state: RootState): Todo[] => state.todos.todos
+
+export const loadingSelector = (state: RootState): boolean =>
+  state.todos.loading
+
+export const errorSelector = (state: RootState): string | undefined =>
+  state.todos.error
+/*
+export const todosStateSelector = createSelector(
+  todosFunctionForStateSelector,
+  state => state,
+)
+
+export const todosSelector = createSelector(
+  todosFunctionForTodosSelector,
+  todos => todos,
+)
+
+export const loadingSelector = createSelector(
+  todosFunctionForLoadingSelector,
+  isLoaded => isLoaded,
+)*/
 
 export default todosSlice.reducer
 

@@ -5,7 +5,7 @@ import NewTodo from '../screens/NewTodo'
 import { headerStyle } from '../styles/header'
 import { bulidHeaderButton } from './buildHeaderButtons'
 const Stack = createNativeStackNavigator()
-import { Routes } from '../entities/constants'
+import { Routes } from '../navigation/types'
 import InfoTodo from '../screens/InfoTodo'
 import { navigateTo } from './buildHeaderButtons'
 export const AppContainer = () => {

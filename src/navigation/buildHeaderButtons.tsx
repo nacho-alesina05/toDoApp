@@ -1,7 +1,7 @@
 import { NavigationProp } from '@react-navigation/native' // Importa el tipo Navigation
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 
-import { Routes } from '../entities/constants'
+import { Routes } from '../navigation/types'
 import { Colors } from '../styles/colors'
 interface headerRBProps {
   navigation: NavigationProp<any>

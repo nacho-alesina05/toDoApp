@@ -2,15 +2,15 @@ import { StyleSheet, Text, View } from 'react-native'
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { ClearButton } from '../components/ClearButton'
-import { todosFunctionForTodosSelector } from '../entities/constants'
-import { Routes } from '../entities/constants'
 import { check, unchecked } from '../features/todosState'
+import { todosSelector } from '../features/todosState'
 import { InfoTodoNavProps } from '../navigation/types'
+import { Routes } from '../navigation/types'
 import { Colors } from '../styles/colors'
 
 export default function InfoTodo({ navigation, route }: InfoTodoNavProps) {
   const { id } = route.params
-  const todos = useAppSelector(todosFunctionForTodosSelector)
+  const todos = useAppSelector(todosSelector)
   const dispatch = useAppDispatch()
   const elem = todos.find(todo => todo.id === id)
 

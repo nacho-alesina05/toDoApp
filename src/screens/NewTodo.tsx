@@ -4,12 +4,12 @@ import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { useAppDispatch } from '../app/hooks'
-import { Routes } from '../entities/constants'
-import { NewItem } from '../entities/globalTypes'
 import { addNewTodo } from '../features/todosState'
 import { bulidHeaderButton } from '../navigation/buildHeaderButtons'
 import { NewTodoNavProps } from '../navigation/types'
+import { Routes } from '../navigation/types'
 import { Colors } from '../styles/colors'
+import { NewItem } from '../types/globalTypes'
 
 export default function NewTodo({ navigation }: NewTodoNavProps) {
   const [isFocused, setFocused] = useState(false)
