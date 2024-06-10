@@ -8,6 +8,7 @@ import {
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { ClearButton } from '../components/ClearButton'
+import { ErrorDisplay } from '../components/Error'
 import { LoadingActivityIndicator } from '../components/Loading'
 import Section from '../components/Section'
 import { clearAllDone, getAllTodos } from '../features/todosState'
@@ -20,11 +21,14 @@ export default function HomeScreen({
   navigation,
 }: HomeNavProps): React.JSX.Element {
   const dispatch = useAppDispatch()
-  useEffect(() => {
+  function getTodosFromAPI() {
     dispatch(getAllTodos())
+  }
+  useEffect(() => {
+    getTodosFromAPI()
   }, [])
 
-  const { todos, loading } = useAppSelector(stateSelector)
+  const { todos, loading, error } = useAppSelector(stateSelector)
   function handleclearAllDone() {
     dispatch(clearAllDone())
   }
@@ -43,6 +47,12 @@ export default function HomeScreen({
   }
   if (loading) {
     return <LoadingActivityIndicator />
+  }
+
+  if (error) {
+    return (
+      <ErrorDisplay description={error} retryConnecting={getTodosFromAPI} />
+    )
   }
 
   return (

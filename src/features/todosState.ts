@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 import type { RootState } from '../app/store'
 import { todosController } from '../networking/controllers/todos'
@@ -100,21 +100,6 @@ export const loadingSelector = (state: RootState): boolean =>
 
 export const errorSelector = (state: RootState): string | undefined =>
   state.todos.error
-/*
-export const todosStateSelector = createSelector(
-  todosFunctionForStateSelector,
-  state => state,
-)
-
-export const todosSelector = createSelector(
-  todosFunctionForTodosSelector,
-  todos => todos,
-)
-
-export const loadingSelector = createSelector(
-  todosFunctionForLoadingSelector,
-  isLoaded => isLoaded,
-)*/
 
 export default todosSlice.reducer
 

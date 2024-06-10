@@ -17,4 +17,8 @@ async function getTodos(): Promise<Todo[]> {
   }))
 }
 
-export const todosController = { getTodos }
+async function postNewTodo(title: string) {
+  const response = await httpService.post<TodoResponse>('/todos')
+}
+
+export const todosController = { getTodos, postNewTodo }

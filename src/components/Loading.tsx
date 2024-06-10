@@ -2,7 +2,7 @@ import { ActivityIndicator, StyleSheet, View } from 'react-native'
 
 import { Colors } from '../styles/colors'
 
-export function LoadingActivityIndicator() {
+export function LoadingActivityIndicator(): React.JSX.Element {
   return (
     <View style={styles.loadingContainer}>
       <ActivityIndicator size={'large'} color={Colors.secondary} />
