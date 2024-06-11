@@ -2,13 +2,34 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 import type { RootState } from '../app/store'
 import { todosController } from '../networking/controllers/todos'
-import { Todo } from '../types/globalTypes'
+import { NewItem, Todo } from '../types/globalTypes'
 
 export interface TodosState {
   todos: Todo[]
   loading: boolean
   error: string | undefined
 }
+
+export const postNewTodo = createAsyncThunk<
+  Todo,
+  NewItem,
+  { rejectValue: string }
+>('todos/newTodo', async (addItem: NewItem, thunkAPI) => {
+  try {
+    return await todosController.postNewTodo(addItem)
+  } catch (error) {
+    if (
+      typeof error === 'object' &&
+      error &&
+      'message' in error &&
+      typeof error.message === 'string'
+    ) {
+      return thunkAPI.rejectWithValue(error.message)
+    } else {
+      return thunkAPI.rejectWithValue(JSON.stringify(error))
+    }
+  }
+})
 
 export const getAllTodos = createAsyncThunk<
   Todo[],
@@ -40,6 +61,18 @@ const initialState: TodosState = {
 export const todosSlice = createSlice({
   extraReducers: builder => {
     builder
+      .addCase(postNewTodo.fulfilled, state => {
+        state.loading = false
+        state.error = ''
+      })
+      .addCase(postNewTodo.pending, state => {
+        state.loading = true
+        state.error = ''
+      })
+      .addCase(postNewTodo.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+      })
       .addCase(getAllTodos.fulfilled, (state, action) => {
         state.todos = action.payload
         state.loading = false

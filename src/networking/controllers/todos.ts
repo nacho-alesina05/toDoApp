@@ -1,8 +1,8 @@
-import { Todo } from '../../types/globalTypes'
+import { NewItem, Todo } from '../../types/globalTypes'
 import { httpService } from '../httpService'
 export interface TodoResponse {
-  userId: number
-  id: number
+  description: string
+  id: string
   title: string
   completed: boolean
 }
@@ -18,25 +18,30 @@ function serialization(todo: Todo): TodoResponse {
 function deserialization(value: TodoResponse): Todo {
   return {
     checked: value.completed,
-    description: 'Description of: ' + value.title,
+    description: value.description,
     id: value.id,
     title: value.title,
   }
 }
 
 async function getTodos(): Promise<Todo[]> {
-  const response = await httpService.get<TodoResponse[]>('/todos')
+  const response = await httpService.get<TodoResponse[]>('/tasks')
   return response.map(todo => deserialization(todo))
 }
 
-async function postNewTodo(title: string, description: string): Promise<Todo> {
-  const response = await httpService.post<TodoResponse>('/todos', title)
+async function postNewTodo(todo: NewItem): Promise<Todo> {
+  const { title, description } = todo
+  const response = await httpService.post<TodoResponse>(
+    '/tasks',
+    title,
+    description,
+  )
   return deserialization(response)
 }
 
 async function modifyTodo(todo: Todo) {
   const response = await httpService.put<TodoResponse>(
-    '/todos/' + todo.id,
+    '/tasks/' + todo.id,
     serialization(todo),
   )
   return response

@@ -1,6 +1,6 @@
 import { TodoResponse } from './controllers/todos'
 
-const baseUrl = 'https://jsonplaceholder.typicode.com'
+const baseUrl = 'https://node-training-1ym5.onrender.com'
 
 async function get<T = any>(endpoint: string): Promise<T> {
   try {
@@ -15,13 +15,16 @@ async function get<T = any>(endpoint: string): Promise<T> {
   }
 }
 
-async function post<T = any>(endpoint: string, title: string): Promise<T> {
+async function post<T = any>(
+  endpoint: string,
+  title: string,
+  description: string,
+): Promise<T> {
   try {
     const response = await fetch(baseUrl + endpoint, {
       body: JSON.stringify({
-        completed: false,
+        description: description,
         title: title,
-        userId: 1,
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
@@ -43,9 +46,8 @@ async function put<T = any>(endpoint: string, params: TodoResponse) {
     const response = await fetch(baseUrl + endpoint, {
       body: JSON.stringify({
         completed: params.completed,
-        id: params.id,
+        description: params.description,
         title: params.title,
-        userId: 1,
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
