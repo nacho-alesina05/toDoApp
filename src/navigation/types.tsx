@@ -3,7 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 type RootStackParamList = {
   HomeScreen: undefined
   NewTodo: undefined
-  InfoTodo: { id: number }
+  InfoTodo: { id: string }
 }
 
 export type HomeNavProps = NativeStackScreenProps<

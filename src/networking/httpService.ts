@@ -1,5 +1,3 @@
-import { TodoResponse } from './controllers/todos'
-
 const baseUrl = 'https://node-training-1ym5.onrender.com'
 
 async function get<T = any>(endpoint: string): Promise<T> {
@@ -41,13 +39,18 @@ async function post<T = any>(
   }
 }
 
-async function put<T = any>(endpoint: string, params: TodoResponse) {
+async function put<T = any>(
+  endpoint: string,
+  title: string,
+  description: string,
+  toCheck: boolean,
+): Promise<T> {
   try {
     const response = await fetch(baseUrl + endpoint, {
       body: JSON.stringify({
-        completed: params.completed,
-        description: params.description,
-        title: params.title,
+        completed: toCheck,
+        description: description,
+        title: title,
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',

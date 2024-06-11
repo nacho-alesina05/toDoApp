@@ -33,7 +33,7 @@ export default function HomeScreen({
     dispatch(clearAllDone())
   }
 
-  function showTodoInfo(id: number) {
+  function showTodoInfo(id: string) {
     navigation.navigate(Routes.Details, {
       id,
     })

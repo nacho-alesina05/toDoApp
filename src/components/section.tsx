@@ -4,12 +4,12 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { todosSelector } from '../features/todosState'
-import { check, unchecked } from '../features/todosState'
+import { getAllTodos, manageCheck } from '../features/todosState'
 import { Colors } from '../styles/colors'
 import { Todo } from '../types/globalTypes'
 interface SectionProps {
-  id: number
-  todoSelectedCallback: (id: number) => void
+  id: string
+  todoSelectedCallback: (id: string) => void
 }
 
 export default function Section({
@@ -18,8 +18,15 @@ export default function Section({
 }: SectionProps): React.JSX.Element {
   const dispatch = useAppDispatch()
 
-  function handleCheckboxPressed(isChecked: boolean) {
-    isChecked ? dispatch(check(id)) : dispatch(unchecked(id))
+  function handleCheckboxPressed(
+    toCheck: boolean,
+    title: string = '',
+    description: string = '',
+  ) {
+    //toCheck ? dispatch(check(id)) : dispatch(unchecked(id))
+    dispatch(manageCheck({ description, id, title, toCheck })).then(() => {
+      dispatch(getAllTodos())
+    })
   }
   const todos: Todo[] = useAppSelector(todosSelector)
   const elem: Todo | undefined = todos.find(todo => todo.id === id)
@@ -40,7 +47,13 @@ export default function Section({
           isChecked={elem?.checked}
           style={styles.bouncyCheckboxStyle}
           fillColor={Colors.secondary}
-          onPress={handleCheckboxPressed}
+          onPress={(isChecked: boolean) =>
+            handleCheckboxPressed(
+              isChecked,
+              elem?.title || '',
+              elem?.description || '',
+            )
+          }
         />
       </View>
     </TouchableOpacity>

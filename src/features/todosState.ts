@@ -10,6 +10,33 @@ export interface TodosState {
   error: string | undefined
 }
 
+export interface ItemCheck {
+  id: string
+  title: string
+  description: string
+  toCheck: boolean
+}
+
+export const manageCheck = createAsyncThunk<
+  Todo,
+  ItemCheck,
+  { rejectValue: string }
+>('todos/manageCheckTodo', async (itemCheck: ItemCheck, thunkAPI) => {
+  try {
+    return await todosController.modifyTodo(itemCheck)
+  } catch (error) {
+    if (
+      typeof error === 'object' &&
+      error &&
+      'message' in error &&
+      typeof error.message === 'string'
+    ) {
+      return thunkAPI.rejectWithValue(error.message)
+    } else {
+      return thunkAPI.rejectWithValue(JSON.stringify(error))
+    }
+  }
+})
 export const postNewTodo = createAsyncThunk<
   Todo,
   NewItem,
@@ -61,6 +88,18 @@ const initialState: TodosState = {
 export const todosSlice = createSlice({
   extraReducers: builder => {
     builder
+      .addCase(manageCheck.fulfilled, state => {
+        state.loading = true
+        state.error = ''
+      })
+      .addCase(manageCheck.pending, state => {
+        state.loading = true
+        state.error = ''
+      })
+      .addCase(manageCheck.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+      })
       .addCase(postNewTodo.fulfilled, state => {
         state.loading = false
         state.error = ''

@@ -17,8 +17,9 @@ export default function NewTodo({ navigation }: NewTodoNavProps) {
   const [textDescription, setTextDescription] = useState('')
   const dispatch = useAppDispatch()
   function saveButtonSetOptions(item: NewItem) {
-    dispatch(postNewTodo(item))
-    dispatch(getAllTodos())
+    dispatch(postNewTodo(item)).then(() => {
+      dispatch(getAllTodos())
+    })
     navigation.navigate(Routes.HomeScreen)
   }
   useEffect(() => {

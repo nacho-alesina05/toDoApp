@@ -1,3 +1,4 @@
+import { ItemCheck } from '../../features/todosState'
 import { NewItem, Todo } from '../../types/globalTypes'
 import { httpService } from '../httpService'
 export interface TodoResponse {
@@ -6,14 +7,14 @@ export interface TodoResponse {
   title: string
   completed: boolean
 }
-function serialization(todo: Todo): TodoResponse {
+/*function serialization(todo: Todo): TodoResponse {
   return {
     completed: todo.checked,
+    description: todo.description,
     id: todo.id,
     title: todo.title,
-    userId: 1,
   }
-}
+}*/
 
 function deserialization(value: TodoResponse): Todo {
   return {
@@ -39,12 +40,15 @@ async function postNewTodo(todo: NewItem): Promise<Todo> {
   return deserialization(response)
 }
 
-async function modifyTodo(todo: Todo) {
+async function modifyTodo(item: ItemCheck): Promise<Todo> {
+  const { id, title, description, toCheck } = item
   const response = await httpService.put<TodoResponse>(
-    '/tasks/' + todo.id,
-    serialization(todo),
+    '/tasks/' + id,
+    title,
+    description,
+    toCheck,
   )
-  return response
+  return deserialization(response)
 }
 
 export const todosController = { getTodos, modifyTodo, postNewTodo }
