@@ -110,7 +110,10 @@ export const todosSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(clearTodoAPI.fulfilled, state => {
-        state.loading = true
+        state.todos = state.todos.filter(obj => {
+          return obj.checked === false
+        })
+        state.loading = false
         state.error = ''
       })
       .addCase(clearTodoAPI.pending, state => {
@@ -121,8 +124,14 @@ export const todosSlice = createSlice({
         state.loading = false
         state.error = action.payload
       })
-      .addCase(manageCheck.fulfilled, state => {
-        state.loading = true
+      .addCase(manageCheck.fulfilled, (state, action) => {
+        const todoToCheck = state.todos.find(
+          todo => todo.id === action.payload.id,
+        )
+        if (todoToCheck) {
+          todoToCheck.checked = action.payload.checked
+        }
+        state.loading = false
         state.error = ''
       })
       .addCase(manageCheck.pending, state => {
@@ -133,7 +142,8 @@ export const todosSlice = createSlice({
         state.loading = false
         state.error = action.payload
       })
-      .addCase(postNewTodo.fulfilled, state => {
+      .addCase(postNewTodo.fulfilled, (state, action) => {
+        state.todos.push(action.payload)
         state.loading = false
         state.error = ''
       })
@@ -161,38 +171,7 @@ export const todosSlice = createSlice({
   },
   initialState,
   name: 'todos',
-  reducers: {
-    // addNewTodo: (state, action) => {
-    //   const { title, description } = action.payload
-    //   const idNewTodo = state.todos.length
-    //     ? state.todos[state.todos.length - 1].id + 1
-    //     : 0
-    //   const newTodo: Todo = {
-    //     checked: false,
-    //     description,
-    //     id: idNewTodo,
-    //     title,
-    //   }
-    //   state.todos.push(newTodo)
-    // },
-    // check: (state, action) => {
-    //   const todoToCheck = state.todos.find(todo => todo.id === action.payload)
-    //   if (todoToCheck) {
-    //     todoToCheck.checked = true
-    //   }
-    // },
-    // clearAllDone: state => {
-    //   state.todos = state.todos.filter(obj => {
-    //     return obj.checked === false
-    //   })
-    // },
-    // unchecked: (state, action) => {
-    //   const todoToCheck = state.todos.find(todo => todo.id === action.payload)
-    //   if (todoToCheck) {
-    //     todoToCheck.checked = false
-    //   }
-    // },
-  },
+  reducers: {},
 })
 
 export const stateSelector = (state: RootState): TodosState => state.todos
@@ -206,5 +185,3 @@ export const errorSelector = (state: RootState): string | undefined =>
   state.todos.error
 
 export default todosSlice.reducer
-
-//export const { addNewTodo, check, unchecked, clearAllDone } = todosSlice.actions

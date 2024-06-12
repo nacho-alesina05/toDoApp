@@ -4,7 +4,7 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { todosSelector } from '../features/todosState'
-import { getAllTodos, manageCheck } from '../features/todosState'
+import { manageCheck } from '../features/todosState'
 import { Colors } from '../styles/colors'
 import { Todo } from '../types/globalTypes'
 interface SectionProps {
@@ -23,10 +23,7 @@ export default function Section({
     title: string = '',
     description: string = '',
   ) {
-    //toCheck ? dispatch(check(id)) : dispatch(unchecked(id))
-    dispatch(manageCheck({ description, id, title, toCheck })).then(() => {
-      dispatch(getAllTodos())
-    })
+    dispatch(manageCheck({ description, id, title, toCheck }))
   }
   const todos: Todo[] = useAppSelector(todosSelector)
   const elem: Todo | undefined = todos.find(todo => todo.id === id)

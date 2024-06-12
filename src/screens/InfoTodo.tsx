@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native'
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { ClearButton } from '../components/ClearButton'
-import { getAllTodos, manageCheck } from '../features/todosState'
+import { manageCheck } from '../features/todosState'
 import { todosSelector } from '../features/todosState'
 import { InfoTodoNavProps } from '../navigation/types'
 import { Routes } from '../navigation/types'
@@ -15,14 +15,11 @@ export default function InfoTodo({ navigation, route }: InfoTodoNavProps) {
   const elem = todos.find(todo => todo.id === id)
 
   function returnHomeScreen(td: Todo | undefined) {
-    //!elem?.checked ? dispatch(check(id)) : dispatch(unchecked(id))
     if (td) {
       const { description, id: todoId, title, checked } = td
       dispatch(
         manageCheck({ description, id: todoId, title, toCheck: !checked }),
-      ).then(() => {
-        dispatch(getAllTodos())
-      })
+      )
     }
     navigation.navigate(Routes.HomeScreen)
   }

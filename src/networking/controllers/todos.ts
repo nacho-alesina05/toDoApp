@@ -7,14 +7,6 @@ export interface TodoResponse {
   title: string
   completed: boolean
 }
-/*function serialization(todo: Todo): TodoResponse {
-  return {
-    completed: todo.checked,
-    description: todo.description,
-    id: todo.id,
-    title: todo.title,
-  }
-}*/
 
 const server: string = '/tasks'
 
@@ -54,7 +46,7 @@ async function modifyTodo(item: ItemCheck): Promise<Todo> {
 }
 
 async function deleteTodo(id: string): Promise<void> {
-  await httpService.httpDelete<void>(server + '/' + id)
+  await httpService.httpDelete(server + '/' + id)
 }
 
 export const todosController = { deleteTodo, getTodos, modifyTodo, postNewTodo }

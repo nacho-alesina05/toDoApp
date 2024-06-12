@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { useAppDispatch } from '../app/hooks'
-import { getAllTodos, postNewTodo } from '../features/todosState'
+import { postNewTodo } from '../features/todosState'
 import { bulidHeaderButton } from '../navigation/buildHeaderButtons'
 import { NewTodoNavProps } from '../navigation/types'
 import { Routes } from '../navigation/types'
@@ -17,9 +17,7 @@ export default function NewTodo({ navigation }: NewTodoNavProps) {
   const [textDescription, setTextDescription] = useState('')
   const dispatch = useAppDispatch()
   function saveButtonSetOptions(item: NewItem) {
-    dispatch(postNewTodo(item)).then(() => {
-      dispatch(getAllTodos())
-    })
+    dispatch(postNewTodo(item))
     navigation.navigate(Routes.HomeScreen)
   }
   useEffect(() => {

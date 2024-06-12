@@ -67,14 +67,13 @@ async function put<T = any>(
   }
 }
 
-async function httpDelete<T = any>(endpoint: string): Promise<T> {
+async function httpDelete(endpoint: string): Promise<void> {
   try {
     const response = await fetch(baseUrl + endpoint, { method: 'DELETE' })
     if (!response.ok) {
       throw new Error('The new todo could not be deleted')
     }
-    const data = await response.json()
-    return data as T
+    return
   } catch (error) {
     throw new Error(error.message)
   }

@@ -34,8 +34,6 @@ export default function HomeScreen({
       .filter(todo => todo.checked === true)
       .map(todo => dispatch(clearTodoAPI(todo.id)))
     await Promise.all(clearPromises)
-    dispatch(getAllTodos())
-    //dispatch(clearAllDone())
   }
 
   function showTodoInfo(id: string) {
