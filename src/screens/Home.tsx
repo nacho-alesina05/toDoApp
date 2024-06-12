@@ -11,7 +11,7 @@ import { ClearButton } from '../components/ClearButton'
 import { ErrorDisplay } from '../components/Error'
 import { LoadingActivityIndicator } from '../components/Loading'
 import Section from '../components/Section'
-import { clearAllDone, getAllTodos } from '../features/todosState'
+import { clearTodoAPI, getAllTodos } from '../features/todosState'
 import { stateSelector } from '../features/todosState'
 import { HomeNavProps } from '../navigation/types'
 import { Routes } from '../navigation/types'
@@ -29,8 +29,13 @@ export default function HomeScreen({
   }, [])
 
   const { todos, loading, error } = useAppSelector(stateSelector)
-  function handleclearAllDone() {
-    dispatch(clearAllDone())
+  async function handleclearAllDone() {
+    const clearPromises = todos
+      .filter(todo => todo.checked === true)
+      .map(todo => dispatch(clearTodoAPI(todo.id)))
+    await Promise.all(clearPromises)
+    dispatch(getAllTodos())
+    //dispatch(clearAllDone())
   }
 
   function showTodoInfo(id: string) {

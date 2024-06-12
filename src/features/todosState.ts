@@ -17,6 +17,27 @@ export interface ItemCheck {
   toCheck: boolean
 }
 
+export const clearTodoAPI = createAsyncThunk<
+  void,
+  string,
+  { rejectValue: string }
+>('todos/deleteTodosAPI', async (id: string, thunkAPI) => {
+  try {
+    return await todosController.deleteTodo(id)
+  } catch (error) {
+    if (
+      typeof error === 'object' &&
+      error &&
+      'message' in error &&
+      typeof error.message === 'string'
+    ) {
+      return thunkAPI.rejectWithValue(error.message)
+    } else {
+      return thunkAPI.rejectWithValue(JSON.stringify(error))
+    }
+  }
+})
+
 export const manageCheck = createAsyncThunk<
   Todo,
   ItemCheck,
@@ -88,6 +109,18 @@ const initialState: TodosState = {
 export const todosSlice = createSlice({
   extraReducers: builder => {
     builder
+      .addCase(clearTodoAPI.fulfilled, state => {
+        state.loading = true
+        state.error = ''
+      })
+      .addCase(clearTodoAPI.pending, state => {
+        state.loading = true
+        state.error = ''
+      })
+      .addCase(clearTodoAPI.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+      })
       .addCase(manageCheck.fulfilled, state => {
         state.loading = true
         state.error = ''

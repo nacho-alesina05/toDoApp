@@ -16,6 +16,8 @@ export interface TodoResponse {
   }
 }*/
 
+const server: string = '/tasks'
+
 function deserialization(value: TodoResponse): Todo {
   return {
     checked: value.completed,
@@ -33,7 +35,7 @@ async function getTodos(): Promise<Todo[]> {
 async function postNewTodo(todo: NewItem): Promise<Todo> {
   const { title, description } = todo
   const response = await httpService.post<TodoResponse>(
-    '/tasks',
+    server,
     title,
     description,
   )
@@ -43,7 +45,7 @@ async function postNewTodo(todo: NewItem): Promise<Todo> {
 async function modifyTodo(item: ItemCheck): Promise<Todo> {
   const { id, title, description, toCheck } = item
   const response = await httpService.put<TodoResponse>(
-    '/tasks/' + id,
+    server + '/' + id,
     title,
     description,
     toCheck,
@@ -51,4 +53,8 @@ async function modifyTodo(item: ItemCheck): Promise<Todo> {
   return deserialization(response)
 }
 
-export const todosController = { getTodos, modifyTodo, postNewTodo }
+async function deleteTodo(id: string): Promise<void> {
+  await httpService.httpDelete<void>(server + '/' + id)
+}
+
+export const todosController = { deleteTodo, getTodos, modifyTodo, postNewTodo }

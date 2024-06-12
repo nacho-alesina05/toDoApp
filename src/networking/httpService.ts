@@ -7,6 +7,7 @@ async function get<T = any>(endpoint: string): Promise<T> {
       throw new Error('Failed to fetch todos')
     }
     const data = await response.json()
+    console.log(data)
     return data as T
   } catch (error) {
     throw new Error(error.message)
@@ -66,8 +67,26 @@ async function put<T = any>(
     throw new Error(error.message)
   }
 }
+
+async function httpDelete<T = any>(endpoint: string): Promise<T> {
+  try {
+    console.log('url: ')
+    console.log(baseUrl + endpoint)
+    const response = await fetch(baseUrl + endpoint, { method: 'DELETE' })
+    if (!response.ok) {
+      console.log('entra aca')
+      throw new Error('The new todo could not be deleted')
+    }
+    const data = await response.json()
+    return data as T
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
 export const httpService = {
   get,
+  httpDelete,
   post,
   put,
 }
