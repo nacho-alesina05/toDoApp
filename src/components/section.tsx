@@ -20,8 +20,8 @@ export default function Section({
 
   function handleCheckboxPressed(
     toCheck: boolean,
-    title: string = '',
-    description: string = '',
+    title: string,
+    description: string,
   ) {
     dispatch(manageCheck({ description, id, title, toCheck }))
   }

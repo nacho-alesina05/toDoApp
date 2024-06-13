@@ -17,6 +17,19 @@ export interface ItemCheck {
   toCheck: boolean
 }
 
+// function handleRejectWithValue(thunkAPI: any, error: any): any {
+//   if (
+//     typeof error === 'object' &&
+//     error &&
+//     'message' in error &&
+//     typeof error.message === 'string'
+//   ) {
+//     return thunkAPI.rejectWithValue(error.message)
+//   } else {
+//     return thunkAPI.rejectWithValue(JSON.stringify(error))
+//   }
+// }
+
 export const clearTodoAPI = createAsyncThunk<
   void,
   string,

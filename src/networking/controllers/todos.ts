@@ -1,5 +1,6 @@
 import { ItemCheck } from '../../features/todosState'
 import { NewItem, Todo } from '../../types/globalTypes'
+import { Endpoints } from '../endpoints'
 import { httpService } from '../httpService'
 export interface TodoResponse {
   description: string
@@ -8,9 +9,7 @@ export interface TodoResponse {
   completed: boolean
 }
 
-const server: string = '/tasks'
-
-function deserialization(value: TodoResponse): Todo {
+function deserializeTodo(value: TodoResponse): Todo {
   return {
     checked: value.completed,
     description: value.description,
@@ -20,33 +19,33 @@ function deserialization(value: TodoResponse): Todo {
 }
 
 async function getTodos(): Promise<Todo[]> {
-  const response = await httpService.get<TodoResponse[]>('/tasks')
-  return response.map(todo => deserialization(todo))
+  const response = await httpService.get<TodoResponse[]>(Endpoints.GetTodos)
+  return response.map(todo => deserializeTodo(todo))
 }
 
 async function postNewTodo(todo: NewItem): Promise<Todo> {
   const { title, description } = todo
   const response = await httpService.post<TodoResponse>(
-    server,
+    Endpoints.PostNewTodo,
     title,
     description,
   )
-  return deserialization(response)
+  return deserializeTodo(response)
 }
 
 async function modifyTodo(item: ItemCheck): Promise<Todo> {
   const { id, title, description, toCheck } = item
   const response = await httpService.put<TodoResponse>(
-    server + '/' + id,
+    Endpoints.ModifyTodo.replace('%s', id),
     title,
     description,
     toCheck,
   )
-  return deserialization(response)
+  return deserializeTodo(response)
 }
 
 async function deleteTodo(id: string): Promise<void> {
-  await httpService.httpDelete(server + '/' + id)
+  await httpService.httpDelete(Endpoints.DeleteTodo.replace('%s', id))
 }
 
 export const todosController = { deleteTodo, getTodos, modifyTodo, postNewTodo }
