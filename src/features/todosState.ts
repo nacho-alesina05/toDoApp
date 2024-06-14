@@ -17,18 +17,18 @@ export interface ItemCheck {
   toCheck: boolean
 }
 
-// function handleRejectWithValue(thunkAPI: any, error: any): any {
-//   if (
-//     typeof error === 'object' &&
-//     error &&
-//     'message' in error &&
-//     typeof error.message === 'string'
-//   ) {
-//     return thunkAPI.rejectWithValue(error.message)
-//   } else {
-//     return thunkAPI.rejectWithValue(JSON.stringify(error))
-//   }
-// }
+function errorMessage(error: any): string {
+  if (
+    typeof error === 'object' &&
+    error &&
+    'message' in error &&
+    typeof error.message === 'string'
+  ) {
+    return error.message
+  } else {
+    return JSON.stringify(error)
+  }
+}
 
 export const clearTodoAPI = createAsyncThunk<
   void,
@@ -38,16 +38,7 @@ export const clearTodoAPI = createAsyncThunk<
   try {
     return await todosController.deleteTodo(id)
   } catch (error) {
-    if (
-      typeof error === 'object' &&
-      error &&
-      'message' in error &&
-      typeof error.message === 'string'
-    ) {
-      return thunkAPI.rejectWithValue(error.message)
-    } else {
-      return thunkAPI.rejectWithValue(JSON.stringify(error))
-    }
+    return thunkAPI.rejectWithValue(errorMessage(error))
   }
 })
 
@@ -59,16 +50,7 @@ export const manageCheck = createAsyncThunk<
   try {
     return await todosController.modifyTodo(itemCheck)
   } catch (error) {
-    if (
-      typeof error === 'object' &&
-      error &&
-      'message' in error &&
-      typeof error.message === 'string'
-    ) {
-      return thunkAPI.rejectWithValue(error.message)
-    } else {
-      return thunkAPI.rejectWithValue(JSON.stringify(error))
-    }
+    return thunkAPI.rejectWithValue(errorMessage(error))
   }
 })
 export const postNewTodo = createAsyncThunk<
@@ -79,16 +61,7 @@ export const postNewTodo = createAsyncThunk<
   try {
     return await todosController.postNewTodo(addItem)
   } catch (error) {
-    if (
-      typeof error === 'object' &&
-      error &&
-      'message' in error &&
-      typeof error.message === 'string'
-    ) {
-      return thunkAPI.rejectWithValue(error.message)
-    } else {
-      return thunkAPI.rejectWithValue(JSON.stringify(error))
-    }
+    return thunkAPI.rejectWithValue(errorMessage(error))
   }
 })
 
@@ -100,16 +73,7 @@ export const getAllTodos = createAsyncThunk<
   try {
     return await todosController.getTodos()
   } catch (error) {
-    if (
-      typeof error === 'object' &&
-      error &&
-      'message' in error &&
-      typeof error.message === 'string'
-    ) {
-      return thunkAPI.rejectWithValue(error.message)
-    } else {
-      return thunkAPI.rejectWithValue(JSON.stringify(error))
-    }
+    return thunkAPI.rejectWithValue(errorMessage(error))
   }
 })
 

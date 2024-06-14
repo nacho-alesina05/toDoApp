@@ -1,3 +1,4 @@
+import { manageNetworkError } from '../types/errorHandler'
 import { ErrorMsgs } from './errorMsgs'
 
 const baseUrl = 'https://node-training-1ym5.onrender.com'
@@ -36,7 +37,7 @@ async function post<T = any>(
       method: 'POST',
     })
     if (!response.ok) {
-      throw new Error(ErrorMsgs.uploadingTodos)
+      throw new Error(manageNetworkError(response.status, endpoint))
     }
     const data = await response.json()
     return data as T
@@ -68,7 +69,7 @@ async function put<T = any>(
       method: 'PUT',
     })
     if (!response.ok) {
-      throw new Error(ErrorMsgs.modifyTodo)
+      throw new Error(manageNetworkError(response.status, endpoint))
     }
     const data = await response.json()
     return data as T
@@ -84,8 +85,8 @@ async function put<T = any>(
 async function httpDelete(endpoint: string): Promise<void> {
   try {
     const response = await fetch(baseUrl + endpoint, { method: 'DELETE' })
-    if (response.ok) {
-      throw new Error(ErrorMsgs.deleteTodo)
+    if (!response.ok) {
+      throw new Error(manageNetworkError(response.status, endpoint))
     }
     return
   } catch (error) {
