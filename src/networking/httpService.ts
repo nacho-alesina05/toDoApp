@@ -1,13 +1,13 @@
+import Config from 'react-native-config'
+
 import { manageNetworkError } from '../types/errorHandler'
-import { ErrorMsgs } from './errorMsgs'
 
-const baseUrl = 'https://node-training-1ym5.onrender.com'
-
+const baseUrl = Config.BACKEND
 async function get<T = any>(endpoint: string): Promise<T> {
   try {
     const response = await fetch(baseUrl + endpoint)
     if (!response.ok) {
-      throw new Error(ErrorMsgs.fetchTodos)
+      throw new Error(manageNetworkError(response.status, endpoint))
     }
     const data = await response.json()
     return data as T
