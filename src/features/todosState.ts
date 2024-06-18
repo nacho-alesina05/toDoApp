@@ -1,14 +1,69 @@
-import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 import type { RootState } from '../app/store'
 import { todosController } from '../networking/controllers/todos'
-import { Todo } from '../types/globalTypes'
+import { NewItem, Todo } from '../types/globalTypes'
 
 export interface TodosState {
   todos: Todo[]
   loading: boolean
   error: string | undefined
 }
+
+export interface ItemCheck {
+  id: string
+  title: string
+  description: string
+  toCheck: boolean
+}
+
+function errorMessage(error: any): string {
+  if (
+    typeof error === 'object' &&
+    error &&
+    'message' in error &&
+    typeof error.message === 'string'
+  ) {
+    return error.message
+  } else {
+    return JSON.stringify(error)
+  }
+}
+
+export const clearTodoAPI = createAsyncThunk<
+  void,
+  string,
+  { rejectValue: string }
+>('todos/deleteTodosAPI', async (id: string, thunkAPI) => {
+  try {
+    return await todosController.deleteTodo(id)
+  } catch (error) {
+    return thunkAPI.rejectWithValue(errorMessage(error))
+  }
+})
+
+export const manageCheck = createAsyncThunk<
+  Todo,
+  ItemCheck,
+  { rejectValue: string }
+>('todos/manageCheckTodo', async (itemCheck: ItemCheck, thunkAPI) => {
+  try {
+    return await todosController.modifyTodo(itemCheck)
+  } catch (error) {
+    return thunkAPI.rejectWithValue(errorMessage(error))
+  }
+})
+export const postNewTodo = createAsyncThunk<
+  Todo,
+  NewItem,
+  { rejectValue: string }
+>('todos/newTodo', async (addItem: NewItem, thunkAPI) => {
+  try {
+    return await todosController.postNewTodo(addItem)
+  } catch (error) {
+    return thunkAPI.rejectWithValue(errorMessage(error))
+  }
+})
 
 export const getAllTodos = createAsyncThunk<
   Todo[],
@@ -18,16 +73,7 @@ export const getAllTodos = createAsyncThunk<
   try {
     return await todosController.getTodos()
   } catch (error) {
-    if (
-      typeof error === 'object' &&
-      error &&
-      'message' in error &&
-      typeof error.message === 'string'
-    ) {
-      return thunkAPI.rejectWithValue(error.message)
-    } else {
-      return thunkAPI.rejectWithValue(JSON.stringify(error))
-    }
+    return thunkAPI.rejectWithValue(errorMessage(error))
   }
 })
 
@@ -40,6 +86,52 @@ const initialState: TodosState = {
 export const todosSlice = createSlice({
   extraReducers: builder => {
     builder
+      .addCase(clearTodoAPI.fulfilled, state => {
+        state.todos = state.todos.filter(obj => {
+          return obj.checked === false
+        })
+        state.loading = false
+        state.error = ''
+      })
+      .addCase(clearTodoAPI.pending, state => {
+        state.loading = true
+        state.error = ''
+      })
+      .addCase(clearTodoAPI.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+      })
+      .addCase(manageCheck.fulfilled, (state, action) => {
+        const todoToCheck = state.todos.find(
+          todo => todo.id === action.payload.id,
+        )
+        if (todoToCheck) {
+          todoToCheck.checked = action.payload.checked
+        }
+        state.loading = false
+        state.error = ''
+      })
+      .addCase(manageCheck.pending, state => {
+        state.loading = true
+        state.error = ''
+      })
+      .addCase(manageCheck.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+      })
+      .addCase(postNewTodo.fulfilled, (state, action) => {
+        state.todos.push(action.payload)
+        state.loading = false
+        state.error = ''
+      })
+      .addCase(postNewTodo.pending, state => {
+        state.loading = true
+        state.error = ''
+      })
+      .addCase(postNewTodo.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload
+      })
       .addCase(getAllTodos.fulfilled, (state, action) => {
         state.todos = action.payload
         state.loading = false
@@ -56,39 +148,7 @@ export const todosSlice = createSlice({
   },
   initialState,
   name: 'todos',
-  reducers: {
-    addNewTodo: (state, action) => {
-      const { title, description } = action.payload
-      const idNewTodo = state.todos.length
-        ? state.todos[state.todos.length - 1].id + 1
-        : 0
-
-      const newTodo: Todo = {
-        checked: false,
-        description,
-        id: idNewTodo,
-        title,
-      }
-      state.todos.push(newTodo)
-    },
-    check: (state, action) => {
-      const todoToCheck = state.todos.find(todo => todo.id === action.payload)
-      if (todoToCheck) {
-        todoToCheck.checked = true
-      }
-    },
-    clearAllDone: state => {
-      state.todos = state.todos.filter(obj => {
-        return obj.checked === false
-      })
-    },
-    unchecked: (state, action) => {
-      const todoToCheck = state.todos.find(todo => todo.id === action.payload)
-      if (todoToCheck) {
-        todoToCheck.checked = false
-      }
-    },
-  },
+  reducers: {},
 })
 
 export const stateSelector = (state: RootState): TodosState => state.todos
@@ -100,22 +160,5 @@ export const loadingSelector = (state: RootState): boolean =>
 
 export const errorSelector = (state: RootState): string | undefined =>
   state.todos.error
-/*
-export const todosStateSelector = createSelector(
-  todosFunctionForStateSelector,
-  state => state,
-)
-
-export const todosSelector = createSelector(
-  todosFunctionForTodosSelector,
-  todos => todos,
-)
-
-export const loadingSelector = createSelector(
-  todosFunctionForLoadingSelector,
-  isLoaded => isLoaded,
-)*/
 
 export default todosSlice.reducer
-
-export const { addNewTodo, check, unchecked, clearAllDone } = todosSlice.actions

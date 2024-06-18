@@ -8,9 +8,10 @@ import {
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { ClearButton } from '../components/ClearButton'
+import { ErrorDisplay } from '../components/Error'
 import { LoadingActivityIndicator } from '../components/Loading'
 import Section from '../components/Section'
-import { clearAllDone, getAllTodos } from '../features/todosState'
+import { clearTodoAPI, getAllTodos } from '../features/todosState'
 import { stateSelector } from '../features/todosState'
 import { HomeNavProps } from '../navigation/types'
 import { Routes } from '../navigation/types'
@@ -20,16 +21,22 @@ export default function HomeScreen({
   navigation,
 }: HomeNavProps): React.JSX.Element {
   const dispatch = useAppDispatch()
-  useEffect(() => {
+  function getTodosFromAPI() {
     dispatch(getAllTodos())
+  }
+  useEffect(() => {
+    getTodosFromAPI()
   }, [])
 
-  const { todos, loading } = useAppSelector(stateSelector)
-  function handleclearAllDone() {
-    dispatch(clearAllDone())
+  const { todos, loading, error } = useAppSelector(stateSelector)
+  async function handleclearAllDone() {
+    const clearPromises = todos
+      .filter(todo => todo.checked === true)
+      .map(todo => dispatch(clearTodoAPI(todo.id)))
+    await Promise.all(clearPromises)
   }
 
-  function showTodoInfo(id: number) {
+  function showTodoInfo(id: string) {
     navigation.navigate(Routes.Details, {
       id,
     })
@@ -43,6 +50,12 @@ export default function HomeScreen({
   }
   if (loading) {
     return <LoadingActivityIndicator />
+  }
+
+  if (error) {
+    return (
+      <ErrorDisplay description={error} retryConnecting={getTodosFromAPI} />
+    )
   }
 
   return (

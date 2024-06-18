@@ -2,23 +2,27 @@ import { StyleSheet, Text, View } from 'react-native'
 
 import { useAppDispatch, useAppSelector } from '../app/hooks'
 import { ClearButton } from '../components/ClearButton'
-import { check, unchecked } from '../features/todosState'
+import { manageCheck } from '../features/todosState'
 import { todosSelector } from '../features/todosState'
 import { InfoTodoNavProps } from '../navigation/types'
 import { Routes } from '../navigation/types'
 import { Colors } from '../styles/colors'
-
+import { Todo } from '../types/globalTypes'
 export default function InfoTodo({ navigation, route }: InfoTodoNavProps) {
   const { id } = route.params
   const todos = useAppSelector(todosSelector)
   const dispatch = useAppDispatch()
   const elem = todos.find(todo => todo.id === id)
 
-  function returnHomeScreen() {
-    !elem?.checked ? dispatch(check(id)) : dispatch(unchecked(id))
+  function returnHomeScreen(td: Todo | undefined) {
+    if (td) {
+      const { description, id: todoId, title, checked } = td
+      dispatch(
+        manageCheck({ description, id: todoId, title, toCheck: !checked }),
+      )
+    }
     navigation.navigate(Routes.HomeScreen)
   }
-
   return (
     <>
       <View style={styles.view}>
@@ -32,7 +36,7 @@ export default function InfoTodo({ navigation, route }: InfoTodoNavProps) {
       </View>
       <ClearButton
         text={`Mark as ${elem?.checked ? 'not ' : ''}done`}
-        onPress={returnHomeScreen}
+        onPress={() => returnHomeScreen(elem)}
       />
     </>
   )
